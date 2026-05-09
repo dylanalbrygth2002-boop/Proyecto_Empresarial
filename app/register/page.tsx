@@ -2,22 +2,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 
 export default function RegisterPage() {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleRegister = async () => {
     setError("");
     setLoading(true);
 
@@ -32,14 +28,15 @@ export default function RegisterPage() {
 
       if (!data.success) {
         setError(data.message || "Error al registrar");
+        setLoading(false);
         return;
       }
 
-      router.push("/dashboard");
-      router.refresh();
+      localStorage.setItem("userId", data.data.user.id);
+      localStorage.setItem("userRole", data.data.user.role);
+      window.location.href = "/dashboard";
     } catch {
       setError("Error de conexión");
-    } finally {
       setLoading(false);
     }
   };
@@ -60,32 +57,34 @@ export default function RegisterPage() {
                 <Alert variant="error">{error}</Alert>
               </div>
             )}
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-4">
               <Input
                 label="Nombre completo"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                required
               />
               <Input
                 label="Correo electrónico"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
               />
               <Input
                 label="Contraseña"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
               />
-              <Button type="submit" className="w-full" isLoading={loading}>
-                Registrarse
-              </Button>
-            </form>
+              <button
+                type="button"
+                onClick={handleRegister}
+                disabled={loading}
+                className="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+              >
+                {loading ? "Cargando..." : "Registrarse"}
+              </button>
+            </div>
             <p className="mt-4 text-center text-sm text-slate-600">
               ¿Ya tienes cuenta?{" "}
               <Link href="/login" className="text-blue-600 hover:underline">

@@ -1,14 +1,18 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAuth } from "@/lib/auth-server";
-import { clientSchema } from "@/lib/validations/client";
-import { successResponse, errorResponse, unauthorizedResponse, notFoundResponse } from "@/lib/api-response";
+import { successResponse, errorResponse, notFoundResponse } from "@/lib/api-response";
+
+function requireAdmin(request: NextRequest) {
+  const userRole = request.headers.get("x-user-role");
+  if (userRole !== "ADMIN") {
+    return errorResponse("No autorizado. Solo el administrador puede realizar esta acción.", 403);
+  }
+  return null;
+}
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await requireAuth();
     const { id } = await params;
-
     const client = await prisma.client.findUnique({
       where: { id },
       include: {
@@ -31,43 +35,35 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     return successResponse(client);
   } catch (error) {
-    if (error instanceof Error && error.message === "UNAUTHORIZED") {
-      return unauthorizedResponse();
-    }
     console.error("Get client error:", error);
     return errorResponse("Error al obtener cliente", 500);
   }
 }
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const authError = requireAdmin(request);
+  if (authError) return authError;
+
   try {
-    await requireAuth();
     const { id } = await params;
     const body = await request.json();
-    const result = clientSchema.safeParse(body);
-
-    if (!result.success) {
-      return errorResponse("Datos inválidos", 400, result.error.flatten().fieldErrors);
-    }
-
     const client = await prisma.client.update({
       where: { id },
-      data: result.data,
+      data: body,
     });
 
     return successResponse(client);
   } catch (error) {
-    if (error instanceof Error && error.message === "UNAUTHORIZED") {
-      return unauthorizedResponse();
-    }
     console.error("Update client error:", error);
     return errorResponse("Error al actualizar cliente", 500);
   }
 }
 
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const authError = requireAdmin(request);
+  if (authError) return authError;
+
   try {
-    await requireAuth();
     const { id } = await params;
 
     const projectsCount = await prisma.project.count({
@@ -84,9 +80,6 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
 
     return successResponse({ message: "Cliente eliminado" });
   } catch (error) {
-    if (error instanceof Error && error.message === "UNAUTHORIZED") {
-      return unauthorizedResponse();
-    }
     console.error("Delete client error:", error);
     return errorResponse("Error al eliminar cliente", 500);
   }

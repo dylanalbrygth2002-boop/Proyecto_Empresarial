@@ -1,11 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/auth-server";
-import { successResponse, errorResponse, unauthorizedResponse, forbiddenResponse } from "@/lib/api-response";
+import { successResponse, errorResponse } from "@/lib/api-response";
 
 export async function GET() {
   try {
-    await requireAdmin();
-
     const users = await prisma.user.findMany({
       orderBy: { createdAt: "desc" },
       select: {
@@ -23,12 +20,6 @@ export async function GET() {
 
     return successResponse(users);
   } catch (error) {
-    if (error instanceof Error && error.message === "UNAUTHORIZED") {
-      return unauthorizedResponse();
-    }
-    if (error instanceof Error && error.message === "FORBIDDEN") {
-      return forbiddenResponse();
-    }
     console.error("Get users error:", error);
     return errorResponse("Error al obtener usuarios", 500);
   }

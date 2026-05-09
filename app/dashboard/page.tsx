@@ -6,13 +6,18 @@ import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 
 interface DashboardData {
-  totalClientes: number;
-  totalProyectos: number;
-  proyectosActivos: number;
-  proyectosFinalizados: number;
-  tareasPendientes: number;
-  tareasCompletadas: number;
-  usuariosRegistrados: number;
+  // Admin fields
+  totalClientes?: number;
+  totalProyectos?: number;
+  proyectosActivos?: number;
+  proyectosFinalizados?: number;
+  tareasPendientes?: number;
+  tareasCompletadas?: number;
+  usuariosRegistrados?: number;
+  // User fields
+  totalTareas?: number;
+  tareasEnProgreso?: number;
+  // Common fields
   ultimosProyectos: Array<{
     id: string;
     name: string;
@@ -32,8 +37,12 @@ interface DashboardData {
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState("");
 
   useEffect(() => {
+    const role = localStorage.getItem("userRole") || "";
+    setUserRole(role);
+
     fetch("/api/dashboard/resumen")
       .then((res) => res.json())
       .then((res) => {
@@ -42,7 +51,10 @@ export default function DashboardPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const stats = [
+  const isAdmin = userRole === "ADMIN";
+
+  // Stats for Admin
+  const adminStats = [
     { label: "Clientes", value: data?.totalClientes ?? 0, color: "blue" },
     { label: "Proyectos", value: data?.totalProyectos ?? 0, color: "indigo" },
     { label: "Proyectos activos", value: data?.proyectosActivos ?? 0, color: "emerald" },
@@ -51,6 +63,17 @@ export default function DashboardPage() {
     { label: "Tareas completadas", value: data?.tareasCompletadas ?? 0, color: "green" },
     { label: "Usuarios", value: data?.usuariosRegistrados ?? 0, color: "purple" },
   ];
+
+  // Stats for User
+  const userStats = [
+    { label: "Mis tareas", value: data?.totalTareas ?? 0, color: "blue" },
+    { label: "Tareas pendientes", value: data?.tareasPendientes ?? 0, color: "amber" },
+    { label: "En progreso", value: data?.tareasEnProgreso ?? 0, color: "indigo" },
+    { label: "Tareas completadas", value: data?.tareasCompletadas ?? 0, color: "green" },
+    { label: "Mis proyectos", value: data?.totalProyectos ?? 0, color: "emerald" },
+  ];
+
+  const stats = isAdmin ? adminStats : userStats;
 
   const getStatusVariant = (status: string) => {
     const map: Record<string, "default" | "success" | "warning" | "danger" | "info"> = {
@@ -93,37 +116,43 @@ export default function DashboardPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
-          <p className="text-slate-500">Resumen general del sistema</p>
+          <p className="text-slate-500">
+            {isAdmin ? "Resumen general del sistema" : "Tu resumen personal"}
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className={`grid grid-cols-2 ${isAdmin ? "lg:grid-cols-4" : "lg:grid-cols-5"} gap-3`}>
           {stats.map((stat) => (
-            <Card key={stat.label}>
-              <CardBody>
-                <p className="text-sm font-medium text-slate-500">{stat.label}</p>
-                <p className="text-3xl font-bold text-slate-900 mt-1">{stat.value}</p>
+            <Card key={stat.label} className="!p-0">
+              <CardBody className="p-3">
+                <p className="text-xs font-medium text-slate-500">{stat.label}</p>
+                <p className="text-2xl font-bold text-slate-900 mt-0.5">{stat.value}</p>
               </CardBody>
             </Card>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <h2 className="text-lg font-semibold text-slate-900">Últimos proyectos</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <Card className="!p-0">
+            <CardHeader className="px-4 py-3 pb-0">
+              <h2 className="text-base font-semibold text-slate-900">
+                {isAdmin ? "Últimos proyectos" : "Mis proyectos"}
+              </h2>
             </CardHeader>
-            <CardBody>
+            <CardBody className="p-4 pt-2">
               {data?.ultimosProyectos.length === 0 ? (
-                <p className="text-sm text-slate-500">No hay proyectos registrados</p>
+                <p className="text-xs text-slate-500">
+                  {isAdmin ? "No hay proyectos registrados" : "No tienes proyectos asignados"}
+                </p>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {data?.ultimosProyectos.map((project) => (
-                    <div key={project.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50">
-                      <div>
-                        <p className="text-sm font-medium text-slate-900">{project.name}</p>
-                        <p className="text-xs text-slate-500">{project.client.name}</p>
+                    <div key={project.id} className="flex items-center justify-between px-3 py-2 rounded-md bg-slate-50">
+                      <div className="min-w-0">
+                        <p className="text-xs font-medium text-slate-900 truncate">{project.name}</p>
+                        <p className="text-[10px] text-slate-500">{project.client.name}</p>
                       </div>
-                      <Badge variant={getStatusVariant(project.status)}>
+                      <Badge variant={getStatusVariant(project.status)} className="text-[10px] px-1.5 py-0.5 shrink-0 ml-2">
                         {getStatusLabel(project.status)}
                       </Badge>
                     </div>
@@ -133,24 +162,28 @@ export default function DashboardPage() {
             </CardBody>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <h2 className="text-lg font-semibold text-slate-900">Últimas tareas</h2>
+          <Card className="!p-0">
+            <CardHeader className="px-4 py-3 pb-0">
+              <h2 className="text-base font-semibold text-slate-900">
+                {isAdmin ? "Últimas tareas" : "Mis tareas"}
+              </h2>
             </CardHeader>
-            <CardBody>
+            <CardBody className="p-4 pt-2">
               {data?.ultimasTareas.length === 0 ? (
-                <p className="text-sm text-slate-500">No hay tareas registradas</p>
+                <p className="text-xs text-slate-500">
+                  {isAdmin ? "No hay tareas registradas" : "No tienes tareas asignadas"}
+                </p>
               ) : (
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {data?.ultimasTareas.map((task) => (
-                    <div key={task.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50">
-                      <div>
-                        <p className="text-sm font-medium text-slate-900">{task.title}</p>
-                        <p className="text-xs text-slate-500">
-                          {task.project.name} • {task.responsible.name}
+                    <div key={task.id} className="flex items-center justify-between px-3 py-2 rounded-md bg-slate-50">
+                      <div className="min-w-0">
+                        <p className="text-xs font-medium text-slate-900 truncate">{task.title}</p>
+                        <p className="text-[10px] text-slate-500">
+                          {task.project.name} • {isAdmin ? task.responsible.name : "Asignada a ti"}
                         </p>
                       </div>
-                      <Badge variant={getStatusVariant(task.status)}>
+                      <Badge variant={getStatusVariant(task.status)} className="text-[10px] px-1.5 py-0.5 shrink-0 ml-2">
                         {getStatusLabel(task.status)}
                       </Badge>
                     </div>

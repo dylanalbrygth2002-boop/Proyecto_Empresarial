@@ -1,13 +1,19 @@
-import { successResponse, errorResponse, unauthorizedResponse } from "@/lib/api-response";
-import { getCurrentUser } from "@/lib/auth-server";
+import { NextRequest } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { successResponse, errorResponse } from "@/lib/api-response";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const user = await getCurrentUser();
+    const userId = request.headers.get("x-user-id");
 
-    if (!user) {
-      return unauthorizedResponse("No hay sesión activa");
+    if (!userId) {
+      return successResponse({ user: null });
     }
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true, name: true, email: true, role: true, createdAt: true },
+    });
 
     return successResponse({ user });
   } catch (error) {

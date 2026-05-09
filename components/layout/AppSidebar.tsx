@@ -26,9 +26,8 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/login");
-    router.refresh();
+    localStorage.removeItem("token");
+    window.location.href = "/login";
   };
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);

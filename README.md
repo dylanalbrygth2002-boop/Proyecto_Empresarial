@@ -11,46 +11,43 @@ Sistema de gestion empresarial full-stack para TechSolutions S.A., desarrollado 
 - Prisma ORM 6
 - PostgreSQL
 - Bun (runtime y gestor de paquetes)
-- JWT para autenticacion
-- Zod para validaciones
+- jsPDF para reportes PDF
 
 ## Requisitos Previos
 
 - Bun instalado
-- Cuenta en Railway
-- Base de datos PostgreSQL configurada en Railway
+- PostgreSQL corriendo (local o Railway)
 
 ## Instalacion Local
 
-1. Clonar el repositorio
-2. Instalar dependencias:
-```bash
-bun install
-```
-
-3. Copiar el archivo de variables de entorno:
+1. Copiar el archivo de variables de entorno:
 ```bash
 cp .env.example .env
 ```
 
-4. Configurar `DATABASE_URL` en `.env` con tus credenciales de PostgreSQL
+2. Configurar `DATABASE_URL` en `.env` con tus credenciales de PostgreSQL
 
-5. Generar Prisma Client:
+3. Instalar dependencias:
+```bash
+bun install
+```
+
+4. Generar Prisma Client:
 ```bash
 bunx prisma generate
 ```
 
-6. Ejecutar migraciones:
+5. Ejecutar migraciones:
 ```bash
 bunx prisma migrate dev
 ```
 
-7. Ejecutar seed (opcional, para datos de prueba):
+6. Crear usuario administrador:
 ```bash
 bunx prisma db seed
 ```
 
-8. Iniciar servidor de desarrollo:
+7. Iniciar servidor de desarrollo:
 ```bash
 bun dev
 ```
@@ -60,7 +57,7 @@ bun dev
 Ver `.env.example`:
 
 ```
-DATABASE_URL=postgresql://usuario:password@host:puerto/nombre_base_datos?schema=public
+DATABASE_URL=postgresql://postgres:Dai12345@127.0.0.1:5432/sistema_empresarial?schema=public
 JWT_SECRET=tu-secreto-jwt-super-seguro-cambia-esto
 NODE_ENV=development
 ```
@@ -74,21 +71,60 @@ bun start        # Iniciar en produccion
 bunx prisma studio  # Prisma Studio
 bunx prisma migrate dev  # Crear migracion
 bunx prisma migrate deploy  # Aplicar migraciones en produccion
-bunx prisma db seed  # Ejecutar seed
+bunx prisma db seed  # Crear usuario admin
 ```
 
-## Credenciales de Prueba
+## Credenciales
 
-Si ejecutas el seed:
+Despues de ejecutar `bunx prisma db seed`:
 
 - **Administrador**: admin@techsolutions.com / admin123
-- **Usuario**: usuario@techsolutions.com / user123
+
+Los usuarios normales se registran manualmente desde la pagina de registro.
+
+## Funcionalidades
+
+### Modulos
+
+- **Dashboard**: Estadisticas generales del sistema
+- **Clientes**: CRUD completo de clientes empresariales
+- **Proyectos**: CRUD completo de proyectos asociados a clientes
+- **Tareas**: CRUD completo de tareas asociadas a proyectos y responsables
+- **Usuarios**: Gestion de usuarios (solo administrador)
+- **Perfil**: Informacion del usuario autenticado
+
+### Reportes PDF
+
+Desde la pagina de detalle de cada proyecto, puedes descargar un reporte PDF que incluye:
+
+- Informacion del proyecto (nombre, cliente, estado, fechas)
+- Lista de tareas con responsable, prioridad, estado
+- Fecha de inicio y fecha de finalizacion de cada tarea
+- Fecha y hora de generacion del reporte
+
+### Roles
+
+**Administrador:**
+- Acceso completo a todos los modulos
+- Puede gestionar usuarios
+- Puede eliminar registros
+
+**Usuario Normal:**
+- Puede ver dashboard, clientes, proyectos, tareas
+- Puede crear y editar registros
+- No puede acceder a la gestion de usuarios
 
 ## Estructura del Proyecto
 
 ```
 app/
   api/           # Route Handlers (backend)
+    auth/        # Autenticacion (login, register, me, logout)
+    clientes/    # CRUD clientes
+    proyectos/   # CRUD proyectos + reportes PDF
+    tareas/      # CRUD tareas
+    usuarios/    # Gestion usuarios (admin)
+    dashboard/   # Resumen estadistico
   dashboard/     # Panel principal
   clientes/      # CRUD clientes
   proyectos/     # CRUD proyectos
@@ -98,17 +134,17 @@ app/
   login/         # Inicio de sesion
   register/      # Registro
 components/
-  ui/            # Componentes reutilizables
-  layout/        # Layout y navegacion
-  dashboard/     # Componentes del dashboard
+  ui/            # Componentes reutilizables (Button, Input, Card, etc.)
+  layout/        # Layout y navegacion (AppShell, AppSidebar)
 lib/
   prisma.ts      # Cliente Prisma
   auth-server.ts # Helpers de autenticacion (server)
   jwt.ts         # Manejo de JWT
   validations/   # Esquemas Zod
+  fetch-auth.ts  # Helper para fetch con autenticacion
 prisma/
   schema.prisma  # Modelo de datos
-  seed.ts        # Datos de prueba
+  seed.ts        # Usuario admin inicial
 ```
 
 ## Endpoints Principales
@@ -132,6 +168,7 @@ prisma/
 - GET /api/proyectos/[id]
 - PUT /api/proyectos/[id]
 - DELETE /api/proyectos/[id]
+- GET /api/proyectos/[id]/reporte (descarga PDF)
 
 ### Tareas
 - GET /api/tareas
@@ -162,7 +199,11 @@ prisma/
 ```bash
 bunx prisma migrate deploy
 ```
-6. La aplicacion estara disponible en la URL publica de Railway
+6. Crear usuario admin:
+```bash
+bunx prisma db seed
+```
+7. La aplicacion estara disponible en la URL publica de Railway
 
 ## Autor
 

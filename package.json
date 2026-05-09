@@ -5,17 +5,26 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:capacitor": "next build --config next.config.capacitor.ts",
     "start": "next start",
     "lint": "eslint",
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts",
+    "postinstall": "prisma generate",
+    "cap:sync": "cap sync",
+    "cap:open:android": "cap open android"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@capacitor/android": "^8.3.3",
+    "@capacitor/cli": "^8.3.3",
+    "@capacitor/core": "^8.3.3",
     "@prisma/client": "6",
     "bcryptjs": "^3.0.3",
     "jsonwebtoken": "^9.0.3",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.7",
     "next": "16.2.4",
     "prisma": "6",
     "react": "19.2.4",

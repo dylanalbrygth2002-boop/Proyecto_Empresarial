@@ -18,6 +18,8 @@ interface Project {
 interface User {
   id: string;
   name: string;
+  email: string;
+  role: string;
 }
 
 export default function EditarTareaPage() {
@@ -26,19 +28,39 @@ export default function EditarTareaPage() {
   const [task, setTask] = useState<any>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
+    const role = localStorage.getItem("userRole") || "";
+    const userId = localStorage.getItem("userId") || "";
+    setIsAdmin(role === "ADMIN");
+
     Promise.all([
       fetch(`/api/tareas/${params.id}`).then((r) => r.json()),
       fetch("/api/proyectos").then((r) => r.json()),
-      fetch("/api/usuarios").then((r) => r.json()).catch(() => ({ success: false })),
+      fetch("/api/usuarios").then((r) => r.json()),
     ]).then(([taskRes, projectsRes, usersRes]) => {
       if (taskRes.success) setTask(taskRes.data);
       if (projectsRes.success) setProjects(projectsRes.data);
-      if (usersRes.success) setUsers(usersRes.data);
+      if (usersRes.success) {
+        // Filtrar solo usuarios normales (no admin) como responsables
+        const normalUsers = usersRes.data.filter((u: User) => u.role !== "ADMIN");
+        setUsers(normalUsers);
+      }
+      
+      // Guardar info del usuario actual
+      const currentUserName = localStorage.getItem("userName") || "Usuario";
+      setCurrentUser({
+        id: userId,
+        name: currentUserName,
+        email: "",
+        role: role
+      });
+      
       setLoading(false);
     });
   }, [params.id]);
@@ -49,11 +71,15 @@ export default function EditarTareaPage() {
     setSaving(true);
 
     const formData = new FormData(e.currentTarget);
+    const responsibleId = isAdmin 
+      ? (formData.get("responsibleId") as string)
+      : (currentUser?.id || task?.responsibleId || "");
+
     const data = {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
       projectId: formData.get("projectId") as string,
-      responsibleId: formData.get("responsibleId") as string,
+      responsibleId: responsibleId,
       priority: formData.get("priority") as string,
       status: formData.get("status") as string,
       dueDate: formData.get("dueDate") as string,
@@ -70,6 +96,7 @@ export default function EditarTareaPage() {
 
       if (!result.success) {
         setError(result.message || "Error al actualizar tarea");
+        setSaving(false);
         return;
       }
 
@@ -77,7 +104,6 @@ export default function EditarTareaPage() {
       router.refresh();
     } catch {
       setError("Error de conexión");
-    } finally {
       setSaving(false);
     }
   };
@@ -133,13 +159,25 @@ export default function EditarTareaPage() {
                 required
                 options={projects.map((p) => ({ value: p.id, label: p.name }))}
               />
-              <Select
-                label="Responsable"
-                name="responsibleId"
-                defaultValue={task.responsibleId}
-                required
-                options={users.map((u) => ({ value: u.id, label: u.name }))}
-              />
+              
+              {isAdmin ? (
+                <Select
+                  label="Asignar a"
+                  name="responsibleId"
+                  defaultValue={task.responsibleId}
+                  required
+                  options={users.map((u) => ({ value: u.id, label: `${u.name} (${u.email})` }))}
+                />
+              ) : (
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Responsable</label>
+                  <div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">
+                    {task.responsible?.name || currentUser?.name} (Tú)
+                  </div>
+                  <input type="hidden" name="responsibleId" value={task.responsibleId || currentUser?.id || ""} />
+                </div>
+              )}
+              
               <Select
                 label="Prioridad"
                 name="priority"

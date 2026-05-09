@@ -1,42 +1,40 @@
-import { cookies } from "next/headers";
-import { verifyToken, JWTPayload } from "./jwt";
+import { NextRequest } from "next/server";
 import { prisma } from "./prisma";
 
-export async function getSession(): Promise<JWTPayload | null> {
+export function getUserIdFromRequest(request: NextRequest): string | null {
+  return request.headers.get("x-user-id");
+}
+
+export async function requireAuth(request: NextRequest) {
+  const userId = getUserIdFromRequest(request);
+  if (!userId) {
+    throw new Error("UNAUTHORIZED");
+  }
+  
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { id: true, name: true, email: true, role: true },
+  });
+
+  if (!user) {
+    throw new Error("UNAUTHORIZED");
+  }
+
+  return user;
+}
+
+export async function requireAdmin(request: NextRequest) {
+  const user = await requireAuth(request);
+  if (user.role !== "ADMIN") {
+    throw new Error("FORBIDDEN");
+  }
+  return user;
+}
+
+export async function getCurrentUser(request: NextRequest) {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
-    if (!token) return null;
-    return verifyToken(token);
+    return await requireAuth(request);
   } catch {
     return null;
   }
-}
-
-export async function requireAuth(): Promise<JWTPayload> {
-  const session = await getSession();
-  if (!session) {
-    throw new Error("UNAUTHORIZED");
-  }
-  return session;
-}
-
-export async function requireAdmin(): Promise<JWTPayload> {
-  const session = await requireAuth();
-  if (session.role !== "ADMIN") {
-    throw new Error("FORBIDDEN");
-  }
-  return session;
-}
-
-export async function getCurrentUser() {
-  const session = await getSession();
-  if (!session) return null;
-  
-  const user = await prisma.user.findUnique({
-    where: { id: session.userId },
-    select: { id: true, name: true, email: true, role: true, createdAt: true },
-  });
-  
-  return user;
 }

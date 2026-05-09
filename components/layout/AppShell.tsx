@@ -1,20 +1,24 @@
 "use client";
 
-import { useAuth } from "@/lib/use-auth";
+import { useEffect, useState } from "react";
 import { AppSidebar } from "./AppSidebar";
-import { useRouter, usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
-  const router = useRouter();
-  const pathname = usePathname();
+  const [userRole, setUserRole] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push("/login");
+    const userId = localStorage.getItem("userId");
+    const role = localStorage.getItem("userRole");
+    
+    if (!userId) {
+      window.location.href = "/login";
+      return;
     }
-  }, [user, loading, router]);
+
+    setUserRole(role || "USER");
+    setLoading(false);
+  }, []);
 
   if (loading) {
     return (
@@ -24,15 +28,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (!user) {
-    return null;
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
-      <AppSidebar userRole={user.role} />
+      <AppSidebar userRole={userRole} />
       <div className="lg:ml-64 min-h-screen">
-        <main className="p-6">{children}</main>
+        <main className="p-4 pt-16 lg:p-6">{children}</main>
       </div>
     </div>
   );
