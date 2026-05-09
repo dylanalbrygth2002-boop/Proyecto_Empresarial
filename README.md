@@ -18,7 +18,17 @@ Sistema de gestion empresarial full-stack para TechSolutions S.A., desarrollado 
 - Bun instalado
 - PostgreSQL corriendo (local o Railway)
 
-## Instalacion Local
+## Instalacion Local (Metodo Rapido)
+
+Doble clic en `scripts/setup-local.bat` (Windows) y sigue las instrucciones. El script automatiza todo:
+- Verifica PostgreSQL
+- Genera cliente Prisma
+- Aplica migraciones
+- Opcionalmente limpia datos existentes
+- Ejecuta seed con datos demo
+- Verifica el estado final
+
+## Instalacion Local (Metodo Manual)
 
 1. Copiar el archivo de variables de entorno:
 ```bash
@@ -49,7 +59,7 @@ bunx prisma db seed
 
 7. Iniciar servidor de desarrollo:
 ```bash
-bun dev
+bun run dev
 ```
 
 ## Variables de Entorno
@@ -62,16 +72,34 @@ JWT_SECRET=tu-secreto-jwt-super-seguro-cambia-esto
 NODE_ENV=development
 ```
 
+## Scripts Automatizados
+
+Ejecuta con doble clic (Windows) o desde terminal:
+
+| Script | Comando | Descripcion |
+|--------|---------|-------------|
+| `scripts/setup-local.bat` | `bun run setup` | Setup completo local |
+| `scripts/deploy.bat` | `bun run deploy` | Guia paso a paso para produccion |
+| `scripts/build-apk.bat` | `bun run build:apk` | Compilar APK de Android |
+| `scripts/diagnostico.bat` | `bun run diagnostico` | Estado del sistema |
+
 ## Comandos Disponibles
 
 ```bash
-bun dev          # Servidor de desarrollo
-bun run build    # Compilar para produccion
-bun start        # Iniciar en produccion
-bunx prisma studio  # Prisma Studio
-bunx prisma migrate dev  # Crear migracion
-bunx prisma migrate deploy  # Aplicar migraciones en produccion
-bunx prisma db seed  # Crear usuario admin
+bun run dev                    # Servidor de desarrollo
+bun run build                  # Compilar para produccion (Vercel)
+bun run build:capacitor        # Compilar archivos estaticos para Capacitor
+bun run start                  # Iniciar en produccion
+bun run setup                  # Setup local automatizado
+bun run deploy                 # Despliegue guiado
+bun run build:apk              # Compilar APK Android
+bun run diagnostico            # Diagnostico del sistema
+bun run cap:sync               # Sincronizar Capacitor
+bun run cap:open:android       # Abrir Android Studio
+bunx prisma studio             # Prisma Studio
+bunx prisma migrate dev        # Crear migracion
+bunx prisma migrate deploy     # Aplicar migraciones en produccion
+bunx prisma db seed            # Crear usuario admin
 ```
 
 ## Credenciales
@@ -186,24 +214,62 @@ prisma/
 ### Dashboard
 - GET /api/dashboard/resumen
 
-## Despliegue en Railway
+## App Movil (Capacitor + Android)
 
+La app movil usa **estrategia Remote URL**: carga la aplicacion directamente desde Vercel.
+
+### Requisitos
+- Android Studio
+- Java JDK 17+
+- Android SDK API 34+
+
+### Configuracion
+1. Despliega primero en Vercel (ver abajo)
+2. Actualiza `capacitor.config.ts` con tu URL:
+   ```ts
+   server: {
+     url: 'https://tu-app.vercel.app',
+     cleartext: true,
+   }
+   ```
+3. Sincroniza: `bun run cap:sync`
+
+### Compilar APK
+- **Automatico**: doble clic en `scripts/build-apk.bat`
+- **Manual**: `bun run cap:open:android` > Build > Build APK(s)
+
+El APK se genera en `android/app/build/outputs/apk/debug/app-debug.apk`
+
+## Despliegue en Produccion
+
+### Opcion Rapida: Script Guiado
+Ejecuta `scripts/deploy.bat` y sigue las instrucciones paso a paso.
+
+### Metodo Manual
+
+#### 1. Railway (Base de Datos)
 1. Crear proyecto en Railway
 2. Crear servicio PostgreSQL y copiar `DATABASE_URL`
-3. Conectar repositorio de GitHub
-4. Configurar variables de entorno en Railway:
-   - `DATABASE_URL`
+3. Ejecutar migraciones y seed:
+   ```bash
+   DATABASE_URL="..." bunx prisma migrate deploy
+   DATABASE_URL="..." bunx prisma db seed
+   ```
+
+#### 2. Vercel (Frontend con Migraciones Automaticas)
+1. Importar repositorio en [vercel.com](https://vercel.com)
+2. Agregar variables de entorno:
+   - `DATABASE_URL` (URL de Railway)
    - `JWT_SECRET`
    - `NODE_ENV=production`
-5. Ejecutar migraciones en produccion:
-```bash
-bunx prisma migrate deploy
-```
-6. Crear usuario admin:
-```bash
-bunx prisma db seed
-```
-7. La aplicacion estara disponible en la URL publica de Railway
+3. El build esta configurado en `vercel.json` para ejecutar **automaticamente**:
+   ```bash
+   bunx prisma migrate deploy && bun run build
+   ```
+   Cada deploy aplica las migraciones pendientes antes de compilar.
+4. Deploy automatico con cada push a GitHub
+
+> **Nota:** El seed de datos iniciales (`bunx prisma db seed`) se ejecuta una sola vez manualmente despues del primer deploy.
 
 ## Autor
 

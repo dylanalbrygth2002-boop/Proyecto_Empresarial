@@ -5,13 +5,17 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:prod": "prisma migrate deploy && next build",
     "build:capacitor": "next build --config next.config.capacitor.ts",
     "start": "next start",
     "lint": "eslint",
     "seed": "tsx prisma/seed.ts",
     "postinstall": "prisma generate",
     "cap:sync": "cap sync",
-    "cap:open:android": "cap open android"
+    "cap:open:android": "cap open android",
+    "setup": "bun run scripts/setup.ts",
+    "diagnostico": "bun run scripts/diagnostico.ts",
+    "build:apk": "bun run scripts/build-apk.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
