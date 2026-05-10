@@ -153,7 +153,7 @@ export default function DashboardPage() {
                         <Link key={project.id} href={`/proyectos/${project.id}`} className={`flex items-center justify-between px-5 py-3.5 hover:bg-indigo-50/40 transition-all duration-200 hover:translate-x-1 animate-fade-in stagger-${Math.min(idx + 1, 8)}`}>
                           <div className="min-w-0">
                             <p className="text-sm font-semibold text-blue-700 truncate">{project.name}</p>
-                            <p className="text-xs text-slate-500">{project.client.name}</p>
+                            <p className="text-xs text-slate-500 truncate">{project.client.name}</p>
                           </div>
                           <Badge variant={getStatusVariant(project.status)} className="shrink-0 ml-3">
                             {getStatusLabel(project.status)}
@@ -189,7 +189,7 @@ export default function DashboardPage() {
                         <Link key={task.id} href={`/tareas/${task.id}`} className={`flex items-center justify-between px-5 py-3.5 hover:bg-blue-50/40 transition-all duration-200 hover:translate-x-1 animate-fade-in stagger-${Math.min(idx + 1, 8)}`}>
                           <div className="min-w-0">
                             <p className="text-sm font-semibold text-blue-700 truncate">{task.title}</p>
-                            <p className="text-xs text-slate-500">{task.project.name} {isAdmin && `• ${task.responsible.name}`}</p>
+                             <p className="text-xs text-slate-500 truncate">{task.project.name} {isAdmin && `• ${task.responsible.name}`}</p>
                           </div>
                           <Badge variant={getStatusVariant(task.status)} className="shrink-0 ml-3">
                             {getStatusLabel(task.status)}

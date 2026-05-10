@@ -63,7 +63,7 @@ export default function ClienteDetailPage() {
       <div className="max-w-3xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-blue-700">{client.name}</h1>
+             <h1 className="text-2xl font-bold text-blue-700 break-words">{client.name}</h1>
             <p className="text-slate-500">Detalle del cliente</p>
           </div>
           <div className="flex gap-2">
@@ -81,7 +81,7 @@ export default function ClienteDetailPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-slate-500">Correo electrónico</p>
-                <p className="font-medium">{client.email}</p>
+                 <p className="font-medium break-words">{client.email}</p>
               </div>
               <div>
                 <p className="text-sm text-slate-500">Teléfono</p>
@@ -89,7 +89,7 @@ export default function ClienteDetailPage() {
               </div>
               <div>
                 <p className="text-sm text-slate-500">Empresa</p>
-                <p className="font-medium">{client.company}</p>
+                 <p className="font-medium truncate">{client.company}</p>
               </div>
               <div>
                 <p className="text-sm text-slate-500">Estado</p>
@@ -113,7 +113,7 @@ export default function ClienteDetailPage() {
                 {client.projects.map((project) => (
                   <div key={project.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50">
                     <div>
-                      <p className="font-medium text-sm">{project.name}</p>
+                       <p className="font-medium text-sm truncate">{project.name}</p>
                       <p className="text-xs text-slate-500">
                         {new Date(project.startDate).toLocaleDateString("es-ES")}
                         {project.endDate && ` - ${new Date(project.endDate).toLocaleDateString("es-ES")}`}

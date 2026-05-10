@@ -19,9 +19,7 @@ const config: CapacitorConfig = {
   webDir: 'out',
   server: {
     // URL de tu app desplegada en Vercel.
-    // Reemplaza con tu dominio real despues del despliegue.
-    // Ejemplo: url: 'https://techsolutions-app.vercel.app',
-    url: process.env.NEXT_PUBLIC_APP_URL || undefined,
+    url: 'https://proyecto-empresarial.vercel.app/',
     // Permite HTTP (no solo HTTPS). Util para pruebas locales.
     cleartext: true,
   },

@@ -116,12 +116,12 @@ export default function ClientesPage() {
                 <CardBody className="p-4">
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <h3 className="font-semibold text-blue-700">{client.name}</h3>
-                      <p className="text-sm text-slate-500">{client.company}</p>
+                       <h3 className="font-semibold text-blue-700 truncate">{client.name}</h3>
+                       <p className="text-sm text-slate-500 truncate">{client.company}</p>
                     </div>
                     <Badge variant={client.status === "ACTIVE" ? "success" : "default"}>{client.status === "ACTIVE" ? "Activo" : "Inactivo"}</Badge>
                   </div>
-                  <p className="text-sm text-slate-600 mb-3">{client.email}</p>
+                   <p className="text-sm text-slate-600 mb-3 truncate">{client.email}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-slate-500">{client._count.projects} proyectos</span>
                     <div className="flex gap-2">

@@ -127,8 +127,8 @@ export default function UsuariosPage() {
                 <CardBody className="p-4">
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <h3 className="font-semibold text-blue-700">{user.name}</h3>
-                      <p className="text-sm text-slate-500">{user.email}</p>
+                       <h3 className="font-semibold text-blue-700 truncate">{user.name}</h3>
+                       <p className="text-sm text-slate-500 truncate">{user.email}</p>
                     </div>
                     <Badge variant={user.role === "ADMIN" ? "danger" : "default"}>{user.role === "ADMIN" ? "Administrador" : "Usuario"}</Badge>
                   </div>
@@ -208,10 +208,10 @@ export default function UsuariosPage() {
                     <div key={task.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <p className="text-sm font-semibold text-blue-700">{task.title}</p>
+                           <p className="text-sm font-semibold text-blue-700 truncate">{task.title}</p>
                           <Badge variant={getPriorityVariant(task.priority)}>{getPriorityLabel(task.priority)}</Badge>
                         </div>
-                        <p className="text-xs text-slate-500 mt-0.5">{task.project.name}</p>
+                         <p className="text-xs text-slate-500 mt-0.5 truncate">{task.project.name}</p>
                       </div>
                       <Badge variant={getStatusVariant(task.status)}>{getStatusLabel(task.status)}</Badge>
                     </div>

@@ -74,7 +74,7 @@ export default function ProyectoDetailPage() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-blue-700 tracking-tight">{project.name}</h1>
+             <h1 className="text-2xl font-bold text-blue-700 tracking-tight break-words">{project.name}</h1>
             <p className="text-sm text-slate-500 mt-0.5">Detalle del proyecto</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -130,7 +130,7 @@ export default function ProyectoDetailPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Cliente</p>
-                <p className="font-semibold text-blue-700">{project.client.name} <span className="text-slate-500 font-normal">({project.client.company})</span></p>
+                <p className="font-semibold text-blue-700 truncate">{project.client.name} <span className="text-slate-500 font-normal">({project.client.company})</span></p>
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Estado</p>
@@ -167,8 +167,8 @@ export default function ProyectoDetailPage() {
                 {project.tasks.map((task: any) => (
                   <Link key={task.id} href={`/tareas/${task.id}`} className="flex items-center justify-between px-6 py-3.5 hover:bg-slate-50/60 transition-colors">
                     <div>
-                      <p className="font-semibold text-sm text-blue-700">{task.title}</p>
-                      <p className="text-xs text-slate-500">Responsable: {task.responsible.name}</p>
+                       <p className="font-semibold text-sm text-blue-700 truncate">{task.title}</p>
+                       <p className="text-xs text-slate-500 truncate">Responsable: {task.responsible.name}</p>
                     </div>
                     <Badge variant={getTaskStatusVariant(task.status)}>{getTaskStatusLabel(task.status)}</Badge>
                   </Link>

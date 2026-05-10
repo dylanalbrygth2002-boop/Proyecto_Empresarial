@@ -119,7 +119,7 @@ export default function ProyectosPage() {
                   <div className="flex items-start justify-between mb-3">
                     <div className="min-w-0">
                       <h3 className="font-bold text-blue-700 truncate">{project.name}</h3>
-                      <p className="text-sm text-slate-500">{project.client.name}</p>
+                      <p className="text-sm text-slate-500 truncate">{project.client.name}</p>
                     </div>
                     <Badge variant={getStatusVariant(project.status)} className="shrink-0 ml-2">{getStatusLabel(project.status)}</Badge>
                   </div>

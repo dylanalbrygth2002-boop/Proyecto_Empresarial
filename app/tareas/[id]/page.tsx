@@ -46,7 +46,7 @@ export default function TareaDetailPage() {
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-blue-700 tracking-tight">{task.title}</h1>
+             <h1 className="text-2xl font-bold text-blue-700 tracking-tight break-words">{task.title}</h1>
             <p className="text-sm text-slate-500 mt-0.5">Detalle de la tarea</p>
           </div>
           <div className="flex gap-2">
@@ -60,11 +60,11 @@ export default function TareaDetailPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Proyecto</p>
-                <Link href={`/proyectos/${task.project.id}`} className="font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">{task.project.name}</Link>
+                <Link href={`/proyectos/${task.project.id}`} className="font-semibold text-indigo-600 hover:text-indigo-700 transition-colors truncate block">{task.project.name}</Link>
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Responsable</p>
-                <p className="font-semibold text-blue-700">{task.responsible.name}</p>
+                <p className="font-semibold text-blue-700 truncate">{task.responsible.name}</p>
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Prioridad</p>

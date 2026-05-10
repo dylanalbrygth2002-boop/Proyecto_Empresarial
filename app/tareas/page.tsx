@@ -149,13 +149,13 @@ export default function TareasPage() {
                        {group.tasks.map((task, tIdx) => (
                          <div key={task.id} className={`px-5 py-3.5 hover:bg-slate-50/60 transition-all duration-200 hover:translate-x-1 animate-fade-in stagger-${Math.min(tIdx + 1, 8)}`}>
                           <div className="flex items-start justify-between gap-2 mb-1.5">
-                            <p className="text-sm font-semibold text-blue-700 leading-snug flex-1">{task.title}</p>
+                             <p className="text-sm font-semibold text-blue-700 leading-snug flex-1 truncate">{task.title}</p>
                             <div className="flex items-center gap-1.5 shrink-0">
                               <Badge variant={getPriorityVariant(task.priority)}>{getPriorityLabel(task.priority)}</Badge>
                               <Badge variant={getStatusVariant(task.status)}>{getStatusLabel(task.status)}</Badge>
                             </div>
                           </div>
-                          <p className="text-xs text-slate-500 mb-2">{task.responsible.name}{task.dueDate && <span> • {new Date(task.dueDate).toLocaleDateString("es-ES")}</span>}</p>
+                           <p className="text-xs text-slate-500 mb-2 truncate">{task.responsible.name}{task.dueDate && <span> • {new Date(task.dueDate).toLocaleDateString("es-ES")}</span>}</p>
                           <div className="flex items-center gap-2">
                             <Link href={`/tareas/${task.id}/historial`} className="flex-1 sm:flex-none"><Button variant="outline" size="sm" className="w-full sm:w-auto text-xs">Historial</Button></Link>
                             {isAdmin && (
