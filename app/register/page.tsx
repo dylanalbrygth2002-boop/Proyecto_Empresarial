@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Input } from "@/components/ui/Input";
 import { Alert } from "@/components/ui/Alert";
-import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -42,57 +40,126 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md">
-        <Card>
-          <CardHeader>
-            <div className="text-center">
-              <h1 className="text-2xl font-bold text-slate-900">TechSolutions</h1>
-              <p className="text-sm text-slate-500 mt-1">Crea tu cuenta</p>
-            </div>
-          </CardHeader>
-          <CardBody>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-slate-900">
+      {/* Fondo con gradientes */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900" />
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px]" />
+      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[150px]" />
+
+      {/* Patrón de puntos */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+          backgroundSize: '32px 32px'
+        }}
+      />
+
+      <div className="relative z-10 w-full max-w-md px-6">
+        {/* Logo */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 shadow-xl shadow-indigo-500/30 mb-5">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold text-white mb-1 tracking-tight">
+            TechSolutions
+          </h1>
+          <p className="text-slate-400 text-sm font-medium">Sistema Empresarial Full-Stack</p>
+        </div>
+
+        {/* Tarjeta */}
+        <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+          <div className="p-8">
+            <h2 className="text-xl font-semibold text-white mb-1 text-center">
+              Crear cuenta
+            </h2>
+            <p className="text-slate-400 text-center mb-6 text-sm">
+              Regístrate para acceder al sistema
+            </p>
+
             {error && (
-              <div className="mb-4">
+              <div className="mb-5">
                 <Alert variant="error">{error}</Alert>
               </div>
             )}
-            <div className="space-y-4">
-              <Input
-                label="Nombre completo"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <Input
-                label="Correo electrónico"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Input
-                label="Contraseña"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+
+            <div className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Nombre completo
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                  placeholder="Juan Pérez"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Correo electrónico
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                  placeholder="tu@email.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Contraseña
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                  placeholder="••••••••"
+                />
+              </div>
+
               <button
                 type="button"
                 onClick={handleRegister}
                 disabled={loading}
-                className="w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-semibold text-sm hover:from-indigo-500 hover:to-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-900/30 active:scale-[0.98]"
               >
-                {loading ? "Cargando..." : "Registrarse"}
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Creando cuenta...
+                  </span>
+                ) : (
+                  "Registrarse"
+                )}
               </button>
             </div>
-            <p className="mt-4 text-center text-sm text-slate-600">
+          </div>
+
+          <div className="px-8 py-4 bg-white/5 border-t border-white/10">
+            <p className="text-center text-sm text-slate-400">
               ¿Ya tienes cuenta?{" "}
-              <Link href="/login" className="text-blue-600 hover:underline">
+              <Link href="/login" className="text-indigo-400 font-semibold hover:text-indigo-300 transition-colors">
                 Inicia sesión
               </Link>
             </p>
-          </CardBody>
-        </Card>
+          </div>
+        </div>
+
+        <p className="text-center text-slate-600 text-xs mt-8">
+          TechSolutions S.A. — Proyecto Universitario
+        </p>
       </div>
     </div>
   );

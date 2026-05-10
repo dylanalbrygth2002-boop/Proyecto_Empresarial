@@ -7,6 +7,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
+import { getAuthHeaders } from "@/components/AuthProvider";
 
 export default function ProyectoDetailPage() {
   const params = useParams();
@@ -15,108 +16,54 @@ export default function ProyectoDetailPage() {
   const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
-    fetch(`/api/proyectos/${params.id}`)
+    fetch(`/api/proyectos/${params.id}`, { headers: getAuthHeaders() })
       .then((res) => res.json())
-      .then((res) => {
-        if (res.success) setProject(res.data);
-      })
+      .then((res) => { if (res.success) setProject(res.data); })
       .finally(() => setLoading(false));
   }, [params.id]);
 
   const handleDownloadReport = async () => {
     setDownloading(true);
     try {
-      const res = await fetch(`/api/proyectos/${params.id}/reporte`);
-      if (!res.ok) {
-        alert("Error al generar el reporte");
-        return;
-      }
+      const res = await fetch(`/api/proyectos/${params.id}/reporte`, { headers: getAuthHeaders() });
+      if (!res.ok) { alert("Error al generar reporte"); return; }
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `reporte-proyecto-${project.name.replace(/\s+/g, "-").toLowerCase()}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    } catch {
-      alert("Error al descargar el reporte");
-    } finally {
-      setDownloading(false);
-    }
+      a.download = `reporte-${project.name.replace(/\s+/g, "-").toLowerCase()}.pdf`;
+      document.body.appendChild(a); a.click();
+      window.URL.revokeObjectURL(url); document.body.removeChild(a);
+    } catch { alert("Error al descargar"); }
+    finally { setDownloading(false); }
   };
 
   const getProgressColor = (progress: number) => {
     if (progress === 0) return "bg-slate-200";
-    if (progress < 25) return "bg-red-500";
-    if (progress < 50) return "bg-amber-500";
-    if (progress < 75) return "bg-blue-500";
-    if (progress < 100) return "bg-emerald-500";
-    return "bg-green-600";
+    if (progress < 30) return "bg-red-500";
+    if (progress < 60) return "bg-amber-500";
+    if (progress < 100) return "bg-indigo-500";
+    return "bg-emerald-500";
   };
-
   const getStatusVariant = (status: string) => {
-    const map: Record<string, any> = {
-      PLANNED: "default",
-      IN_PROGRESS: "info",
-      PAUSED: "warning",
-      FINISHED: "success",
-      CANCELLED: "danger",
-    };
+    const map: Record<string, any> = { PLANNED: "default", IN_PROGRESS: "info", PAUSED: "warning", FINISHED: "success", CANCELLED: "danger" };
     return map[status] || "default";
   };
-
   const getStatusLabel = (status: string) => {
-    const map: Record<string, string> = {
-      PLANNED: "Planificado",
-      IN_PROGRESS: "En progreso",
-      PAUSED: "Pausado",
-      FINISHED: "Finalizado",
-      CANCELLED: "Cancelado",
-    };
+    const map: Record<string, string> = { PLANNED: "Planificado", IN_PROGRESS: "En progreso", PAUSED: "Pausado", FINISHED: "Finalizado", CANCELLED: "Cancelado" };
     return map[status] || status;
   };
-
   const getTaskStatusVariant = (status: string) => {
-    const map: Record<string, any> = {
-      PENDING: "warning",
-      IN_PROGRESS: "info",
-      IN_REVIEW: "default",
-      COMPLETED: "success",
-      CANCELLED: "danger",
-    };
+    const map: Record<string, any> = { PENDING: "warning", IN_PROGRESS: "info", IN_REVIEW: "default", COMPLETED: "success", CANCELLED: "danger" };
     return map[status] || "default";
   };
-
   const getTaskStatusLabel = (status: string) => {
-    const map: Record<string, string> = {
-      PENDING: "Pendiente",
-      IN_PROGRESS: "En progreso",
-      IN_REVIEW: "En revisión",
-      COMPLETED: "Completada",
-      CANCELLED: "Cancelada",
-    };
+    const map: Record<string, string> = { PENDING: "Pendiente", IN_PROGRESS: "En progreso", IN_REVIEW: "En revisión", COMPLETED: "Completada", CANCELLED: "Cancelada" };
     return map[status] || status;
   };
 
-  if (loading) {
-    return (
-      <AppShell>
-        <div className="flex justify-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
-        </div>
-      </AppShell>
-    );
-  }
-
-  if (!project) {
-    return (
-      <AppShell>
-        <p className="text-center text-slate-500">Proyecto no encontrado</p>
-      </AppShell>
-    );
-  }
+  if (loading) return <AppShell><div className="flex justify-center py-12"><div className="animate-spin rounded-full h-10 w-10 border-4 border-indigo-200 border-t-indigo-600" /></div></AppShell>;
+  if (!project) return <AppShell><p className="text-center text-slate-500 py-12">Proyecto no encontrado</p></AppShell>;
 
   const progress = project.progress || 0;
   const totalTasks = project.tasks?.length || 0;
@@ -124,132 +71,107 @@ export default function ProyectoDetailPage() {
 
   return (
     <AppShell>
-      <div className="max-w-3xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">{project.name}</h1>
-            <p className="text-slate-500">Detalle del proyecto</p>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">{project.name}</h1>
+            <p className="text-sm text-slate-500 mt-0.5">Detalle del proyecto</p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-2">
-            <Button 
-              variant="secondary" 
-              size="sm"
-              onClick={handleDownloadReport} 
-              isLoading={downloading}
-              className="w-full sm:w-auto text-xs sm:text-sm"
-            >
+          <div className="flex flex-wrap items-center gap-2">
+            <Button variant="secondary" size="sm" onClick={handleDownloadReport} isLoading={downloading}>
               {downloading ? "Generando..." : "Descargar PDF"}
             </Button>
-            <Link href={`/proyectos/${project.id}/editar`} className="w-full sm:w-auto">
-              <Button variant="outline" size="sm" className="w-full sm:w-auto text-xs sm:text-sm">Editar</Button>
-            </Link>
-            <Link href="/proyectos" className="w-full sm:w-auto">
-              <Button variant="outline" size="sm" className="w-full sm:w-auto text-xs sm:text-sm">Volver</Button>
-            </Link>
+            <Link href={`/proyectos/${project.id}/editar`}><Button variant="outline" size="sm">Editar</Button></Link>
+            <Link href="/proyectos"><Button variant="outline" size="sm">Volver</Button></Link>
           </div>
         </div>
 
-        {/* Card de progreso */}
-        <Card>
-          <CardBody>
-            <div className="space-y-4">
+        {/* Progreso */}
+        <Card className="!p-0">
+          <CardBody className="p-6">
+            <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-900">Progreso del proyecto</h2>
-                  <p className="text-sm text-slate-500">
-                    {completedTasks} de {totalTasks} tareas completadas
-                  </p>
+                  <h2 className="text-lg font-bold text-slate-900">Progreso del proyecto</h2>
+                  <p className="text-sm text-slate-500">{completedTasks} de {totalTasks} tareas completadas</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-3xl font-bold text-slate-900">{progress}%</span>
+                  <span className="text-4xl font-bold text-slate-900">{progress}<span className="text-2xl text-slate-400">%</span></span>
                 </div>
               </div>
-              
-              {/* Barra de progreso grande */}
-              <div className="w-full bg-slate-200 rounded-full h-4 overflow-hidden">
-                <div
-                  className={`h-4 rounded-full transition-all duration-500 ${getProgressColor(progress)}`}
-                  style={{ width: `${progress}%` }}
-                />
+              <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                <div className={`h-3 rounded-full transition-all duration-700 ${getProgressColor(progress)}`} style={{ width: `${progress}%` }} />
               </div>
-              
-              {/* Estadísticas de tareas */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
-                <div className="text-center p-3 bg-slate-50 rounded-lg">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-100">
                   <p className="text-2xl font-bold text-slate-900">{totalTasks}</p>
-                  <p className="text-xs text-slate-500">Total tareas</p>
+                  <p className="text-xs text-slate-500 font-medium mt-0.5">Total tareas</p>
                 </div>
-                <div className="text-center p-3 bg-amber-50 rounded-lg">
-                  <p className="text-2xl font-bold text-amber-700">
-                    {project.tasks?.filter((t: any) => t.status === "PENDING").length || 0}
-                  </p>
-                  <p className="text-xs text-amber-600">Pendientes</p>
+                <div className="text-center p-4 bg-amber-50 rounded-xl border border-amber-100">
+                  <p className="text-2xl font-bold text-amber-700">{project.tasks?.filter((t: any) => t.status === "PENDING").length || 0}</p>
+                  <p className="text-xs text-amber-600 font-medium mt-0.5">Pendientes</p>
                 </div>
-                <div className="text-center p-3 bg-blue-50 rounded-lg">
-                  <p className="text-2xl font-bold text-blue-700">
-                    {project.tasks?.filter((t: any) => t.status === "IN_PROGRESS").length || 0}
-                  </p>
-                  <p className="text-xs text-blue-600">En progreso</p>
+                <div className="text-center p-4 bg-blue-50 rounded-xl border border-blue-100">
+                  <p className="text-2xl font-bold text-blue-700">{project.tasks?.filter((t: any) => t.status === "IN_PROGRESS").length || 0}</p>
+                  <p className="text-xs text-blue-600 font-medium mt-0.5">En progreso</p>
                 </div>
-                <div className="text-center p-3 bg-emerald-50 rounded-lg">
+                <div className="text-center p-4 bg-emerald-50 rounded-xl border border-emerald-100">
                   <p className="text-2xl font-bold text-emerald-700">{completedTasks}</p>
-                  <p className="text-xs text-emerald-600">Completadas</p>
+                  <p className="text-xs text-emerald-600 font-medium mt-0.5">Completadas</p>
                 </div>
               </div>
             </div>
           </CardBody>
         </Card>
 
+        {/* Info */}
         <Card>
-          <CardBody className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <p className="text-sm text-slate-500">Cliente</p>
-                <p className="font-medium">{project.client.name} ({project.client.company})</p>
+          <CardBody className="space-y-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Cliente</p>
+                <p className="font-semibold text-slate-900">{project.client.name} <span className="text-slate-500 font-normal">({project.client.company})</span></p>
               </div>
-              <div>
-                <p className="text-sm text-slate-500">Estado</p>
-                <Badge variant={getStatusVariant(project.status)}>
-                  {getStatusLabel(project.status)}
-                </Badge>
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Estado</p>
+                <Badge variant={getStatusVariant(project.status)}>{getStatusLabel(project.status)}</Badge>
               </div>
-              <div>
-                <p className="text-sm text-slate-500">Fecha de inicio</p>
-                <p className="font-medium">{new Date(project.startDate).toLocaleDateString("es-ES")}</p>
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Fecha de inicio</p>
+                <p className="font-semibold text-slate-900">{new Date(project.startDate).toLocaleDateString("es-ES", { day: 'numeric', month: 'long', year: 'numeric' })}</p>
               </div>
-              <div>
-                <p className="text-sm text-slate-500">Fecha de fin</p>
-                <p className="font-medium">{project.endDate ? new Date(project.endDate).toLocaleDateString("es-ES") : "No definida"}</p>
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Fecha de fin</p>
+                <p className="font-semibold text-slate-900">{project.endDate ? new Date(project.endDate).toLocaleDateString("es-ES", { day: 'numeric', month: 'long', year: 'numeric' }) : "No definida"}</p>
               </div>
             </div>
             {project.description && (
-              <div>
-                <p className="text-sm text-slate-500">Descripción</p>
-                <p className="mt-1">{project.description}</p>
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Descripción</p>
+                <p className="text-slate-700 leading-relaxed">{project.description}</p>
               </div>
             )}
           </CardBody>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <h2 className="text-lg font-semibold text-slate-900">Tareas asociadas</h2>
+        {/* Tareas */}
+        <Card className="!p-0">
+          <CardHeader className="px-6 py-5">
+            <h2 className="text-lg font-bold text-slate-900">Tareas asociadas</h2>
           </CardHeader>
-          <CardBody>
+          <CardBody className="p-0">
             {project.tasks.length === 0 ? (
-              <p className="text-sm text-slate-500">No hay tareas asociadas</p>
+              <p className="text-sm text-slate-500 px-6 py-6">No hay tareas asociadas</p>
             ) : (
-              <div className="space-y-2">
+              <div className="divide-y divide-slate-100">
                 {project.tasks.map((task: any) => (
-                  <div key={task.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50">
+                  <Link key={task.id} href={`/tareas/${task.id}`} className="flex items-center justify-between px-6 py-3.5 hover:bg-slate-50/60 transition-colors">
                     <div>
-                      <p className="font-medium text-sm">{task.title}</p>
+                      <p className="font-semibold text-sm text-slate-900">{task.title}</p>
                       <p className="text-xs text-slate-500">Responsable: {task.responsible.name}</p>
                     </div>
-                    <Badge variant={getTaskStatusVariant(task.status)}>
-                      {getTaskStatusLabel(task.status)}
-                    </Badge>
-                  </div>
+                    <Badge variant={getTaskStatusVariant(task.status)}>{getTaskStatusLabel(task.status)}</Badge>
+                  </Link>
                 ))}
               </div>
             )}
