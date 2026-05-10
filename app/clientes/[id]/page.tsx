@@ -119,8 +119,8 @@ export default function ClienteDetailPage() {
                         {project.endDate && ` - ${new Date(project.endDate).toLocaleDateString("es-ES")}`}
                       </p>
                     </div>
-                    <Badge variant={project.status === "FINISHED" ? "success" : project.status === "IN_PROGRESS" ? "info" : "default"}>
-                      {project.status}
+                    <Badge variant={project.status === "FINISHED" ? "success" : project.status === "IN_PROGRESS" ? "info" : project.status === "PAUSED" ? "warning" : project.status === "CANCELLED" ? "danger" : "default"}>
+                      {project.status === "PLANNED" ? "Planificado" : project.status === "IN_PROGRESS" ? "En progreso" : project.status === "PAUSED" ? "Pausado" : project.status === "FINISHED" ? "Finalizado" : project.status === "CANCELLED" ? "Cancelado" : project.status}
                     </Badge>
                   </div>
                 ))}
