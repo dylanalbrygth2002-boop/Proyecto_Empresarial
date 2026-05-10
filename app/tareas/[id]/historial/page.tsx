@@ -66,7 +66,7 @@ export default function TareaHistorialPage() {
       <div className="max-w-3xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Historial de tarea</h1>
+            <h1 className="text-2xl font-bold text-blue-700 tracking-tight">Historial de tarea</h1>
             <p className="text-sm text-slate-500 mt-0.5">{task.title}</p>
           </div>
           <div className="flex gap-2">
@@ -89,7 +89,7 @@ export default function TareaHistorialPage() {
         {/* Timeline */}
         <Card color="blue" className="!p-0 !border-t-4">
           <CardHeader className="px-6 py-5">
-            <h2 className="text-lg font-bold text-slate-900">Línea de tiempo</h2>
+            <h2 className="text-lg font-bold text-blue-700">Línea de tiempo</h2>
           </CardHeader>
           <CardBody className="p-0">
             <div className="divide-y divide-slate-100">
@@ -101,7 +101,7 @@ export default function TareaHistorialPage() {
                     </svg>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-bold text-slate-900">{event.title}</h3>
+                    <h3 className="text-sm font-bold text-blue-700">{event.title}</h3>
                     <p className="text-sm text-slate-600 mt-0.5">{event.description}</p>
                     <p className="text-xs text-slate-400 mt-1 font-medium">{formatDateTime(event.date)}</p>
                   </div>

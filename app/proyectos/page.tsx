@@ -79,7 +79,7 @@ export default function ProyectosPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Proyectos</h1>
+            <h1 className="text-2xl font-bold text-blue-700 tracking-tight">Proyectos</h1>
             <p className="text-sm text-slate-500 mt-0.5">{isAdmin ? "Gestión de proyectos" : "Proyectos asignados"}</p>
           </div>
           {isAdmin && (
@@ -96,7 +96,7 @@ export default function ProyectosPage() {
             </svg>
           </div>
           <input type="text" placeholder="Buscar proyecto..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
+            className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 bg-white text-blue-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
           />
           {searchQuery && (
             <button onClick={() => setSearchQuery("")} className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
@@ -113,12 +113,12 @@ export default function ProyectosPage() {
           <p className="text-center text-slate-500 py-12">{searchQuery ? "No se encontraron" : "No hay proyectos"}</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            {filteredProjects.map((project) => (
-               <Card key={project.id} color="indigo" className="!p-0 flex flex-col !border-t-4">
+            {filteredProjects.map((project, idx) => (
+               <Card key={project.id} color="indigo" className={`!p-0 flex flex-col !border-t-4 animate-fade-in stagger-${Math.min(idx + 1, 8)}`}>
                 <CardBody className="p-5 flex flex-col flex-1">
                   <div className="flex items-start justify-between mb-3">
                     <div className="min-w-0">
-                      <h3 className="font-bold text-slate-900 truncate">{project.name}</h3>
+                      <h3 className="font-bold text-blue-700 truncate">{project.name}</h3>
                       <p className="text-sm text-slate-500">{project.client.name}</p>
                     </div>
                     <Badge variant={getStatusVariant(project.status)} className="shrink-0 ml-2">{getStatusLabel(project.status)}</Badge>

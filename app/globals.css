@@ -37,30 +37,109 @@ body {
 
 /* Animaciones */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.97) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
 @keyframes slideIn {
-  from { opacity: 0; transform: translateX(-12px); }
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(16px); }
   to { opacity: 1; transform: translateX(0); }
 }
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.96); }
+  from { opacity: 0; transform: scale(0.92); }
   to { opacity: 1; transform: scale(1); }
 }
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
 
 .animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+  animation: fadeIn 0.45s ease-out forwards;
+}
+.animate-fade-in-scale {
+  animation: fadeInScale 0.4s ease-out forwards;
 }
 .animate-slide-in {
-  animation: slideIn 0.3s ease-out forwards;
+  animation: slideIn 0.35s ease-out forwards;
+}
+.animate-slide-in-right {
+  animation: slideInRight 0.35s ease-out forwards;
 }
 .animate-scale-in {
   animation: scaleIn 0.3s ease-out forwards;
+}
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+/* Stagger delays para listas */
+.stagger-1 { animation-delay: 0.05s; opacity: 0; }
+.stagger-2 { animation-delay: 0.1s; opacity: 0; }
+.stagger-3 { animation-delay: 0.15s; opacity: 0; }
+.stagger-4 { animation-delay: 0.2s; opacity: 0; }
+.stagger-5 { animation-delay: 0.25s; opacity: 0; }
+.stagger-6 { animation-delay: 0.3s; opacity: 0; }
+.stagger-7 { animation-delay: 0.35s; opacity: 0; }
+.stagger-8 { animation-delay: 0.4s; opacity: 0; }
+
+/* Hover lifts */
+.hover-lift {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+}
+.hover-lift:active {
+  transform: translateY(-1px);
+}
+
+/* Hover glow para botones */
+.hover-glow {
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.hover-glow:hover {
+  box-shadow: 0 8px 30px -6px rgba(79, 70, 229, 0.4);
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.card-hover:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.15);
+}
+
+/* Sidebar link hover */
+.sidebar-link {
+  transition: all 0.2s ease;
+}
+.sidebar-link:hover {
+  transform: translateX(4px);
+}
+
+/* Page transition wrapper */
+.page-content {
+  animation: fadeInScale 0.4s ease-out forwards;
 }
 
 /* Utilidades de diseño */

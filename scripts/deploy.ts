@@ -46,11 +46,11 @@ async function main() {
 
   console.log("\n[INFO] Verificando conexion...");
   try {
-    const { Client } = require("pg");
-    const client = new Client({ connectionString: railwayUrl });
-    await client.connect();
+    const { PrismaClient } = require("@prisma/client");
+    const prisma = new PrismaClient({ datasources: { db: { url: railwayUrl } } });
+    await prisma.$connect();
     console.log("[OK] Conexion a Railway exitosa");
-    await client.end();
+    await prisma.$disconnect();
   } catch (e: any) {
     console.log("[ERROR] No se pudo conectar:", e.message);
     rl.close();

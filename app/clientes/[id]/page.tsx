@@ -63,7 +63,7 @@ export default function ClienteDetailPage() {
       <div className="max-w-3xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">{client.name}</h1>
+            <h1 className="text-2xl font-bold text-blue-700">{client.name}</h1>
             <p className="text-slate-500">Detalle del cliente</p>
           </div>
           <div className="flex gap-2">
@@ -103,7 +103,7 @@ export default function ClienteDetailPage() {
 
         <Card color="indigo" className="!border-t-4">
           <CardHeader>
-            <h2 className="text-lg font-semibold text-slate-900">Proyectos asociados</h2>
+            <h2 className="text-lg font-semibold text-blue-700">Proyectos asociados</h2>
           </CardHeader>
           <CardBody>
             {client.projects.length === 0 ? (

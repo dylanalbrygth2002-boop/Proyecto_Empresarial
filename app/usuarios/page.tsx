@@ -95,7 +95,7 @@ export default function UsuariosPage() {
     <AppShell>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Usuarios</h1>
+          <h1 className="text-2xl font-bold text-blue-700 tracking-tight">Usuarios</h1>
           <p className="text-sm text-slate-500 mt-0.5">Gestión de usuarios del sistema</p>
         </div>
 
@@ -104,7 +104,7 @@ export default function UsuariosPage() {
             <svg className="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
           </div>
           <input type="text" placeholder="Buscar usuario..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
+            className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 bg-white text-blue-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
           />
           {searchQuery && (
             <button onClick={() => setSearchQuery("")} className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
@@ -127,7 +127,7 @@ export default function UsuariosPage() {
                 <CardBody className="p-4">
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <h3 className="font-semibold text-slate-900">{user.name}</h3>
+                      <h3 className="font-semibold text-blue-700">{user.name}</h3>
                       <p className="text-sm text-slate-500">{user.email}</p>
                     </div>
                     <Badge variant={user.role === "ADMIN" ? "danger" : "default"}>{user.role === "ADMIN" ? "Administrador" : "Usuario"}</Badge>
@@ -165,7 +165,7 @@ export default function UsuariosPage() {
                   <tbody className="divide-y divide-slate-100">
                     {filteredUsers.map((user) => (
                       <tr key={user.id} className="hover:bg-slate-50/80 transition-colors">
-                        <td className="py-3.5 px-5 font-medium text-slate-900">{user.name}</td>
+                        <td className="py-3.5 px-5 font-medium text-blue-700">{user.name}</td>
                         <td className="py-3.5 px-5 text-slate-600">{user.email}</td>
                         <td className="py-3.5 px-5"><Badge variant={user.role === "ADMIN" ? "danger" : "default"}>{user.role === "ADMIN" ? "Administrador" : "Usuario"}</Badge></td>
                         <td className="py-3.5 px-5 text-slate-600">{user._count.tasks}</td>
@@ -190,7 +190,7 @@ export default function UsuariosPage() {
           <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col animate-scale-in">
             <div className="bg-slate-50 px-5 py-4 border-b border-slate-100 flex items-center justify-between rounded-t-2xl shrink-0">
               <div>
-                <h3 className="text-base font-bold text-slate-900">Tareas de {selectedUser.name}</h3>
+                <h3 className="text-base font-bold text-blue-700">Tareas de {selectedUser.name}</h3>
                 <p className="text-xs text-slate-500">{selectedUser.email}</p>
               </div>
               <button onClick={closeModal} className="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition-colors">
@@ -208,7 +208,7 @@ export default function UsuariosPage() {
                     <div key={task.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <p className="text-sm font-semibold text-slate-900">{task.title}</p>
+                          <p className="text-sm font-semibold text-blue-700">{task.title}</p>
                           <Badge variant={getPriorityVariant(task.priority)}>{getPriorityLabel(task.priority)}</Badge>
                         </div>
                         <p className="text-xs text-slate-500 mt-0.5">{task.project.name}</p>

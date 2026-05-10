@@ -32,7 +32,7 @@ export default function PerfilPage() {
     <AppShell>
       <div className="max-w-2xl mx-auto space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Perfil</h1>
+          <h1 className="text-2xl font-bold text-blue-700 tracking-tight">Perfil</h1>
           <p className="text-sm text-slate-500 mt-0.5">Información de tu cuenta</p>
         </div>
 
@@ -43,7 +43,7 @@ export default function PerfilPage() {
                 <span className="text-2xl font-bold text-white">{user.name.charAt(0).toUpperCase()}</span>
               </div>
               <div>
-                <h2 className="text-lg font-bold text-slate-900">{user.name}</h2>
+                <h2 className="text-lg font-bold text-blue-700">{user.name}</h2>
                 <p className="text-sm text-slate-500">{user.email}</p>
               </div>
             </div>
@@ -51,7 +51,7 @@ export default function PerfilPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Correo electrónico</p>
-                <p className="font-semibold text-slate-900">{user.email}</p>
+                <p className="font-semibold text-blue-700">{user.email}</p>
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rol</p>
@@ -61,7 +61,7 @@ export default function PerfilPage() {
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Miembro desde</p>
-                <p className="font-semibold text-slate-900">{new Date(user.createdAt).toLocaleDateString("es-ES", { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <p className="font-semibold text-blue-700">{new Date(user.createdAt).toLocaleDateString("es-ES", { day: 'numeric', month: 'long', year: 'numeric' })}</p>
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">ID de usuario</p>

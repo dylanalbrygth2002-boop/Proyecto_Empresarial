@@ -73,7 +73,7 @@ export default function NuevoProyectoPage() {
     <AppShell>
       <div className="max-w-2xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-slate-900">Nuevo proyecto</h1>
+          <h1 className="text-2xl font-bold text-blue-700">Nuevo proyecto</h1>
           <p className="text-slate-500">Completa la información del proyecto</p>
         </div>
 

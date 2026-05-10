@@ -23,7 +23,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3 animate-fade-in">
           <div className="animate-spin rounded-full h-10 w-10 border-4 border-indigo-200 border-t-indigo-600" />
           <p className="text-sm font-medium text-slate-500">Cargando...</p>
         </div>
@@ -35,7 +35,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-slate-50">
       <AppSidebar userRole={userRole} />
       <div className="lg:ml-64 min-h-screen">
-        <main className="p-4 pt-20 lg:p-8 lg:pt-8 max-w-7xl mx-auto">
+        <main className="p-4 pt-20 lg:p-8 lg:pt-8 max-w-7xl mx-auto page-content">
           {children}
         </main>
       </div>

@@ -67,7 +67,7 @@ export default function ClientesPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Clientes</h1>
+            <h1 className="text-2xl font-bold text-blue-700 tracking-tight">Clientes</h1>
             <p className="text-sm text-slate-500 mt-0.5">{isAdmin ? "Gestión de clientes empresariales" : "Clientes registrados"}</p>
           </div>
           {isAdmin && (
@@ -89,7 +89,7 @@ export default function ClientesPage() {
             placeholder="Buscar cliente..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
+            className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 bg-white text-blue-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
           />
           {searchQuery && (
             <button onClick={() => setSearchQuery("")} className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
@@ -116,7 +116,7 @@ export default function ClientesPage() {
                 <CardBody className="p-4">
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <h3 className="font-semibold text-slate-900">{client.name}</h3>
+                      <h3 className="font-semibold text-blue-700">{client.name}</h3>
                       <p className="text-sm text-slate-500">{client.company}</p>
                     </div>
                     <Badge variant={client.status === "ACTIVE" ? "success" : "default"}>{client.status === "ACTIVE" ? "Activo" : "Inactivo"}</Badge>
@@ -163,7 +163,7 @@ export default function ClientesPage() {
                   <tbody className="divide-y divide-slate-100">
                     {filteredClients.map((client) => (
                       <tr key={client.id} className="hover:bg-slate-50/80 transition-colors">
-                        <td className="py-3.5 px-5 font-medium text-slate-900">{client.name}</td>
+                        <td className="py-3.5 px-5 font-medium text-blue-700">{client.name}</td>
                         <td className="py-3.5 px-5 text-slate-600">{client.company}</td>
                         <td className="py-3.5 px-5 text-slate-600">{client.email}</td>
                         <td className="py-3.5 px-5"><Badge variant={client.status === "ACTIVE" ? "success" : "default"}>{client.status === "ACTIVE" ? "Activo" : "Inactivo"}</Badge></td>

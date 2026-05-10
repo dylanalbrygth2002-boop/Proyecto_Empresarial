@@ -94,7 +94,7 @@ export default function DashboardPage() {
       <div className="space-y-8">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Inicio</h1>
+          <h1 className="text-2xl font-bold text-blue-700 tracking-tight">Inicio</h1>
           <p className="text-slate-500 text-sm mt-0.5">
             {isAdmin ? "Resumen general del sistema" : "Tu resumen personal"}
           </p>
@@ -109,17 +109,17 @@ export default function DashboardPage() {
             {/* Stats */}
             <div className={`grid grid-cols-2 ${isAdmin ? "lg:grid-cols-4 xl:grid-cols-7" : "lg:grid-cols-5"} gap-4`}>
               {stats.map((stat, i) => (
-                <Card key={stat.label} className="!p-0 group hover:shadow-md transition-shadow">
+                <Card key={stat.label} className={`!p-0 group animate-fade-in stagger-${Math.min(i + 1, 8)}`}>
                   <CardBody className="p-4">
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-lg shrink-0`}>
+                      <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-lg shrink-0 group-hover:scale-110 transition-transform duration-300`}>
                         <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={stat.icon} />
                         </svg>
                       </div>
                       <div>
                         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{stat.label}</p>
-                        <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
+                        <p className="text-2xl font-bold text-blue-700 group-hover:scale-105 transition-transform duration-200">{stat.value}</p>
                       </div>
                     </div>
                   </CardBody>
@@ -128,7 +128,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Lists */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in" style={{ animationDelay: '0.3s' }}>
               {/* Proyectos - con color indigo */}
               <Card color="indigo" className="!p-0 !border-t-4">
                 <CardHeader className="px-5 py-4 bg-gradient-to-r from-indigo-50 to-blue-50 border-b border-indigo-100">
@@ -139,7 +139,7 @@ export default function DashboardPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
                       </div>
-                      <h2 className="text-base font-bold text-slate-900">{isAdmin ? "Últimos proyectos" : "Mis proyectos"}</h2>
+                      <h2 className="text-base font-bold text-blue-700">{isAdmin ? "Últimos proyectos" : "Mis proyectos"}</h2>
                     </div>
                     <Link href="/proyectos" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">Ver todos →</Link>
                   </div>
@@ -149,10 +149,10 @@ export default function DashboardPage() {
                     <p className="text-sm text-slate-500 px-5 py-6">{isAdmin ? "No hay proyectos" : "No tienes proyectos"}</p>
                   ) : (
                     <div className="divide-y divide-slate-100">
-                      {data?.ultimosProyectos.map((project) => (
-                        <Link key={project.id} href={`/proyectos/${project.id}`} className="flex items-center justify-between px-5 py-3.5 hover:bg-indigo-50/40 transition-colors">
+                      {data?.ultimosProyectos.map((project, idx) => (
+                        <Link key={project.id} href={`/proyectos/${project.id}`} className={`flex items-center justify-between px-5 py-3.5 hover:bg-indigo-50/40 transition-all duration-200 hover:translate-x-1 animate-fade-in stagger-${Math.min(idx + 1, 8)}`}>
                           <div className="min-w-0">
-                            <p className="text-sm font-semibold text-slate-900 truncate">{project.name}</p>
+                            <p className="text-sm font-semibold text-blue-700 truncate">{project.name}</p>
                             <p className="text-xs text-slate-500">{project.client.name}</p>
                           </div>
                           <Badge variant={getStatusVariant(project.status)} className="shrink-0 ml-3">
@@ -175,7 +175,7 @@ export default function DashboardPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                         </svg>
                       </div>
-                      <h2 className="text-base font-bold text-slate-900">{isAdmin ? "Últimas tareas" : "Mis tareas"}</h2>
+                      <h2 className="text-base font-bold text-blue-700">{isAdmin ? "Últimas tareas" : "Mis tareas"}</h2>
                     </div>
                     <Link href="/tareas" className="text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors">Ver todas →</Link>
                   </div>
@@ -185,10 +185,10 @@ export default function DashboardPage() {
                     <p className="text-sm text-slate-500 px-5 py-6">{isAdmin ? "No hay tareas" : "No tienes tareas"}</p>
                   ) : (
                     <div className="divide-y divide-slate-100">
-                      {data?.ultimasTareas.map((task) => (
-                        <Link key={task.id} href={`/tareas/${task.id}`} className="flex items-center justify-between px-5 py-3.5 hover:bg-blue-50/40 transition-colors">
+                      {data?.ultimasTareas.map((task, idx) => (
+                        <Link key={task.id} href={`/tareas/${task.id}`} className={`flex items-center justify-between px-5 py-3.5 hover:bg-blue-50/40 transition-all duration-200 hover:translate-x-1 animate-fade-in stagger-${Math.min(idx + 1, 8)}`}>
                           <div className="min-w-0">
-                            <p className="text-sm font-semibold text-slate-900 truncate">{task.title}</p>
+                            <p className="text-sm font-semibold text-blue-700 truncate">{task.title}</p>
                             <p className="text-xs text-slate-500">{task.project.name} {isAdmin && `• ${task.responsible.name}`}</p>
                           </div>
                           <Badge variant={getStatusVariant(task.status)} className="shrink-0 ml-3">

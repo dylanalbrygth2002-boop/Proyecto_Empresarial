@@ -92,7 +92,7 @@ export default function TareasPage() {
     <AppShell>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Tareas</h1>
+          <h1 className="text-2xl font-bold text-blue-700 tracking-tight">Tareas</h1>
           <p className="text-sm text-slate-500 mt-0.5">{isAdmin ? "Gestión de todas las tareas" : "Tareas asignadas a ti"}</p>
         </div>
 
@@ -103,7 +103,7 @@ export default function TareasPage() {
             </svg>
           </div>
           <input type="text" placeholder="Buscar tarea..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
+            className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 bg-white text-blue-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all text-sm"
           />
           {searchQuery && (
             <button onClick={() => setSearchQuery("")} className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
@@ -119,14 +119,14 @@ export default function TareasPage() {
         ) : (
           <div className="space-y-5">
             {searchQuery && <p className="text-sm text-slate-500 font-medium">{filteredTasks.length} tareas encontradas</p>}
-            {groupedTasks.map((group) => {
-              const stats = getTaskStats(group.tasks);
-              return (
-                 <Card key={group.projectId} color="blue" className="!p-0 overflow-hidden !border-t-4">
+            {groupedTasks.map((group, gIdx) => {
+               const stats = getTaskStats(group.tasks);
+               return (
+                  <Card key={group.projectId} color="blue" className={`!p-0 overflow-hidden !border-t-4 animate-fade-in stagger-${Math.min(gIdx + 1, 8)}`}>
                   <CardHeader className="bg-slate-50/60 border-b border-slate-100 px-5 py-4">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                       <div className="min-w-0">
-                        <h2 className="text-base font-bold text-slate-900 truncate">{group.projectName}</h2>
+                        <h2 className="text-base font-bold text-blue-700 truncate">{group.projectName}</h2>
                         <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-0.5 text-xs text-slate-500">
                           <span>{stats.total} tarea{stats.total !== 1 ? "s" : ""}</span>
                           {stats.pending > 0 && <span className="text-amber-600 font-medium">• {stats.pending} pendiente{stats.pending !== 1 ? "s" : ""}</span>}
@@ -145,11 +145,11 @@ export default function TareasPage() {
                     </div>
                   </CardHeader>
                   <CardBody className="p-0">
-                    <div className="divide-y divide-slate-100">
-                      {group.tasks.map((task) => (
-                        <div key={task.id} className="px-5 py-3.5 hover:bg-slate-50/60 transition-colors">
+                     <div className="divide-y divide-slate-100">
+                       {group.tasks.map((task, tIdx) => (
+                         <div key={task.id} className={`px-5 py-3.5 hover:bg-slate-50/60 transition-all duration-200 hover:translate-x-1 animate-fade-in stagger-${Math.min(tIdx + 1, 8)}`}>
                           <div className="flex items-start justify-between gap-2 mb-1.5">
-                            <p className="text-sm font-semibold text-slate-900 leading-snug flex-1">{task.title}</p>
+                            <p className="text-sm font-semibold text-blue-700 leading-snug flex-1">{task.title}</p>
                             <div className="flex items-center gap-1.5 shrink-0">
                               <Badge variant={getPriorityVariant(task.priority)}>{getPriorityLabel(task.priority)}</Badge>
                               <Badge variant={getStatusVariant(task.status)}>{getStatusLabel(task.status)}</Badge>

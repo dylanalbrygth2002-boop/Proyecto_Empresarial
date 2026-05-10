@@ -46,7 +46,7 @@ export default function TareaDetailPage() {
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">{task.title}</h1>
+            <h1 className="text-2xl font-bold text-blue-700 tracking-tight">{task.title}</h1>
             <p className="text-sm text-slate-500 mt-0.5">Detalle de la tarea</p>
           </div>
           <div className="flex gap-2">
@@ -64,7 +64,7 @@ export default function TareaDetailPage() {
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Responsable</p>
-                <p className="font-semibold text-slate-900">{task.responsible.name}</p>
+                <p className="font-semibold text-blue-700">{task.responsible.name}</p>
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Prioridad</p>
@@ -76,11 +76,11 @@ export default function TareaDetailPage() {
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Fecha límite</p>
-                <p className="font-semibold text-slate-900">{task.dueDate ? new Date(task.dueDate).toLocaleDateString("es-ES", { day: 'numeric', month: 'long', year: 'numeric' }) : "No definida"}</p>
+                <p className="font-semibold text-blue-700">{task.dueDate ? new Date(task.dueDate).toLocaleDateString("es-ES", { day: 'numeric', month: 'long', year: 'numeric' }) : "No definida"}</p>
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Creada</p>
-                <p className="font-semibold text-slate-900">{new Date(task.createdAt).toLocaleDateString("es-ES", { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <p className="font-semibold text-blue-700">{new Date(task.createdAt).toLocaleDateString("es-ES", { day: 'numeric', month: 'long', year: 'numeric' })}</p>
               </div>
             </div>
             {task.description && (

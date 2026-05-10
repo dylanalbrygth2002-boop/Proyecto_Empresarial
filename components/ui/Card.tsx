@@ -28,7 +28,7 @@ export function Card({ children, className = "", color = "default" }: CardProps)
   const topBorder = color !== "default" ? colorTops[color] : "";
 
   return (
-    <div className={`rounded-2xl border ${colorBorders[color]} bg-white shadow-sm shadow-slate-200/40 hover:shadow-md hover:shadow-slate-200/60 transition-shadow duration-300 ${topBorder} ${className}`}>
+    <div className={`rounded-2xl border ${colorBorders[color]} bg-white shadow-sm shadow-slate-200/40 hover:shadow-lg hover:shadow-slate-200/60 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] ${topBorder} ${className}`}>
       {children}
     </div>
   );
