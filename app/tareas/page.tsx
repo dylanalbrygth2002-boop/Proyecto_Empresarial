@@ -138,16 +138,11 @@ export default function TareasPage() {
     <AppShell>
       <div className="space-y-4 md:space-y-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div>
-            <h1 className="text-xl md:text-2xl font-bold text-slate-900">Tareas</h1>
-            <p className="text-sm text-slate-500">
-              {isAdmin ? "Gestión de todas las tareas" : "Tareas asignadas a ti"}
-            </p>
-          </div>
-          <Link href="/tareas/nueva">
-            <Button className="w-full sm:w-auto">Nueva tarea</Button>
-          </Link>
+        <div>
+          <h1 className="text-xl md:text-2xl font-bold text-slate-900">Tareas</h1>
+          <p className="text-sm text-slate-500">
+            {isAdmin ? "Gestión de todas las tareas" : "Tareas asignadas a ti"}
+          </p>
         </div>
 
         {/* Buscador */}
@@ -212,9 +207,14 @@ export default function TareasPage() {
                           {stats.completed > 0 && <span className="text-emerald-600">• {stats.completed} completada{stats.completed !== 1 ? "s" : ""}</span>}
                         </div>
                       </div>
-                      <Link href={`/proyectos/${group.projectId}`} className="shrink-0">
-                        <Button variant="outline" size="sm" className="w-full sm:w-auto">Ver proyecto</Button>
-                      </Link>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <Link href={`/tareas/nueva?proyectoId=${group.projectId}`} className="shrink-0">
+                          <Button size="sm" className="w-full sm:w-auto">+ Nueva tarea</Button>
+                        </Link>
+                        <Link href={`/proyectos/${group.projectId}`} className="shrink-0">
+                          <Button variant="outline" size="sm" className="w-full sm:w-auto">Ver proyecto</Button>
+                        </Link>
+                      </div>
                     </div>
                   </CardHeader>
 

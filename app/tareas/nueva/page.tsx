@@ -24,6 +24,7 @@ interface User {
 
 export default function NuevaTareaPage() {
   const router = useRouter();
+  const [preselectedProjectId, setPreselectedProjectId] = useState("");
   const [projects, setProjects] = useState<Project[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -38,6 +39,10 @@ export default function NuevaTareaPage() {
     const userId = localStorage.getItem("userId") || "";
     setUserRole(role);
     setIsAdmin(role === "ADMIN");
+
+    // Leer proyectoId de la URL (evita useSearchParams que requiere Suspense)
+    const params = new URLSearchParams(window.location.search);
+    setPreselectedProjectId(params.get("proyectoId") || "");
 
     // Cargar proyectos (la API ya filtra según el rol)
     fetch("/api/proyectos")
@@ -189,6 +194,7 @@ export default function NuevaTareaPage() {
                 label="Proyecto"
                 name="projectId"
                 required
+                defaultValue={preselectedProjectId}
                 options={[
                   { value: "", label: "Selecciona un proyecto..." },
                   ...projects.map((p) => ({ value: p.id, label: p.name }))
