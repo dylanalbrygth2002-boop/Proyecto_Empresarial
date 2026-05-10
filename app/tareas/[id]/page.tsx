@@ -40,6 +40,48 @@ export default function TareaDetailPage() {
     );
   }
 
+  const getPriorityVariant = (priority: string) => {
+    const map: Record<string, any> = {
+      LOW: "default",
+      MEDIUM: "info",
+      HIGH: "warning",
+      CRITICAL: "danger",
+    };
+    return map[priority] || "default";
+  };
+
+  const getPriorityLabel = (priority: string) => {
+    const map: Record<string, string> = {
+      LOW: "Baja",
+      MEDIUM: "Media",
+      HIGH: "Alta",
+      CRITICAL: "Crítica",
+    };
+    return map[priority] || priority;
+  };
+
+  const getStatusVariant = (status: string) => {
+    const map: Record<string, any> = {
+      PENDING: "warning",
+      IN_PROGRESS: "info",
+      IN_REVIEW: "default",
+      COMPLETED: "success",
+      CANCELLED: "danger",
+    };
+    return map[status] || "default";
+  };
+
+  const getStatusLabel = (status: string) => {
+    const map: Record<string, string> = {
+      PENDING: "Pendiente",
+      IN_PROGRESS: "En progreso",
+      IN_REVIEW: "En revisión",
+      COMPLETED: "Completada",
+      CANCELLED: "Cancelada",
+    };
+    return map[status] || status;
+  };
+
   return (
     <AppShell>
       <div className="max-w-2xl mx-auto space-y-6">
@@ -71,14 +113,14 @@ export default function TareaDetailPage() {
               </div>
               <div>
                 <p className="text-sm text-slate-500">Prioridad</p>
-                <Badge variant={task.priority === "CRITICAL" ? "danger" : task.priority === "HIGH" ? "warning" : task.priority === "MEDIUM" ? "info" : "default"}>
-                  {task.priority === "LOW" ? "Baja" : task.priority === "MEDIUM" ? "Media" : task.priority === "HIGH" ? "Alta" : "Crítica"}
+                <Badge variant={getPriorityVariant(task.priority)}>
+                  {getPriorityLabel(task.priority)}
                 </Badge>
               </div>
               <div>
                 <p className="text-sm text-slate-500">Estado</p>
-                <Badge variant={task.status === "COMPLETED" ? "success" : task.status === "IN_PROGRESS" ? "info" : "warning"}>
-                  {task.status === "PENDING" ? "Pendiente" : task.status === "IN_PROGRESS" ? "En progreso" : task.status === "IN_REVIEW" ? "En revisión" : task.status === "COMPLETED" ? "Completada" : "Cancelada"}
+                <Badge variant={getStatusVariant(task.status)}>
+                  {getStatusLabel(task.status)}
                 </Badge>
               </div>
               <div>

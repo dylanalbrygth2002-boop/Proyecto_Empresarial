@@ -70,10 +70,32 @@ export default function ProyectoDetailPage() {
   const getStatusLabel = (status: string) => {
     const map: Record<string, string> = {
       PLANNED: "Planificado",
-      IN_PROGRESS: "En Progreso",
+      IN_PROGRESS: "En progreso",
       PAUSED: "Pausado",
       FINISHED: "Finalizado",
       CANCELLED: "Cancelado",
+    };
+    return map[status] || status;
+  };
+
+  const getTaskStatusVariant = (status: string) => {
+    const map: Record<string, any> = {
+      PENDING: "warning",
+      IN_PROGRESS: "info",
+      IN_REVIEW: "default",
+      COMPLETED: "success",
+      CANCELLED: "danger",
+    };
+    return map[status] || "default";
+  };
+
+  const getTaskStatusLabel = (status: string) => {
+    const map: Record<string, string> = {
+      PENDING: "Pendiente",
+      IN_PROGRESS: "En progreso",
+      IN_REVIEW: "En revisión",
+      COMPLETED: "Completada",
+      CANCELLED: "Cancelada",
     };
     return map[status] || status;
   };
@@ -224,8 +246,8 @@ export default function ProyectoDetailPage() {
                       <p className="font-medium text-sm">{task.title}</p>
                       <p className="text-xs text-slate-500">Responsable: {task.responsible.name}</p>
                     </div>
-                    <Badge variant={task.status === "COMPLETED" ? "success" : task.status === "IN_PROGRESS" ? "info" : "warning"}>
-                      {task.status === "PENDING" ? "Pendiente" : task.status === "IN_PROGRESS" ? "En Progreso" : task.status === "IN_REVIEW" ? "En Revisión" : task.status === "COMPLETED" ? "Completada" : "Cancelada"}
+                    <Badge variant={getTaskStatusVariant(task.status)}>
+                      {getTaskStatusLabel(task.status)}
                     </Badge>
                   </div>
                 ))}

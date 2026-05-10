@@ -210,7 +210,7 @@ export default function UsuariosPage() {
                       <p className="text-sm text-slate-500">{user.email}</p>
                     </div>
                     <Badge variant={user.role === "ADMIN" ? "danger" : "default"}>
-                      {user.role === "ADMIN" ? "Admin" : "Usuario"}
+                      {user.role === "ADMIN" ? "Administrador" : "Usuario"}
                     </Badge>
                   </div>
                   <p className="text-sm text-slate-600 mb-3">{user._count.tasks} tareas</p>
