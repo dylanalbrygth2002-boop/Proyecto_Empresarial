@@ -33,10 +33,10 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
 
   return (
     <>
-      {/* Mobile menu button */}
+      {/* Mobile menu button — se oculta cuando el sidebar está abierto */}
       <button
-        onClick={() => setMobileOpen(!mobileOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2.5 rounded-xl bg-white text-slate-700 shadow-lg border border-slate-200 hover:bg-slate-50 transition-colors"
+        onClick={() => setMobileOpen(true)}
+        className={`lg:hidden fixed top-4 left-4 z-50 p-2.5 rounded-xl bg-white text-slate-700 shadow-lg border border-slate-200 hover:bg-slate-50 transition-colors ${mobileOpen ? "hidden" : ""}`}
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -58,8 +58,8 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
         }`}
       >
         <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="p-6">
+          {/* Logo + botón cerrar en móvil */}
+          <div className="p-6 flex items-start justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,6 +71,15 @@ export function AppSidebar({ userRole }: AppSidebarProps) {
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Sistema Empresarial</p>
               </div>
             </div>
+            {/* Botón cerrar solo en móvil */}
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="lg:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
 
           <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
