@@ -9,6 +9,7 @@ import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
 import { Card, CardBody } from "@/components/ui/Card";
+import { getAuthHeaders } from "@/components/AuthProvider";
 
 interface Client {
   id: string;
@@ -23,7 +24,7 @@ export default function NuevoProyectoPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch("/api/clientes")
+    fetch("/api/clientes", { headers: getAuthHeaders() })
       .then((res) => res.json())
       .then((res) => {
         if (res.success) setClients(res.data);

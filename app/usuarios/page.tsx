@@ -5,6 +5,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
+import { getAuthHeaders } from "@/components/AuthProvider";
 
 interface User {
   id: string;
@@ -36,7 +37,7 @@ export default function UsuariosPage() {
   const [tasksLoading, setTasksLoading] = useState(false);
 
   useEffect(() => {
-    fetch("/api/usuarios")
+    fetch("/api/usuarios", { headers: getAuthHeaders() })
       .then((res) => res.json())
       .then((res) => {
         if (res.success) {

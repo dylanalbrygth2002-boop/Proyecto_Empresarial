@@ -6,6 +6,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
+import { getAuthHeaders } from "@/components/AuthProvider";
 
 interface Task {
   id: string;
@@ -36,7 +37,7 @@ export default function TareasPage() {
     setUserRole(role);
     setUserId(id);
 
-    fetch("/api/tareas")
+    fetch("/api/tareas", { headers: getAuthHeaders() })
       .then((res) => res.json())
       .then((res) => {
         if (res.success) setTasks(res.data);

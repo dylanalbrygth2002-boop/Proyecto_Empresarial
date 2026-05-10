@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardBody } from "@/components/ui/Card";
+import { getAuthHeaders } from "@/components/AuthProvider";
 
 interface User {
   id: string;
@@ -18,7 +19,7 @@ export default function PerfilPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/auth/me")
+    fetch("/api/auth/me", { headers: getAuthHeaders() })
       .then((res) => res.json())
       .then((res) => {
         if (res.success) setUser(res.data.user);

@@ -6,6 +6,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardBody } from "@/components/ui/Card";
+import { getAuthHeaders } from "@/components/AuthProvider";
 
 interface Project {
   id: string;
@@ -29,7 +30,7 @@ export default function ProyectosPage() {
     const role = localStorage.getItem("userRole") || "";
     setUserRole(role);
 
-    fetch("/api/proyectos")
+    fetch("/api/proyectos", { headers: getAuthHeaders() })
       .then((res) => res.json())
       .then((res) => {
         if (res.success) {

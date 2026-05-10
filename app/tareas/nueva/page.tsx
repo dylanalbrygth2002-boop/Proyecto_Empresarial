@@ -9,6 +9,7 @@ import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
 import { Card, CardBody } from "@/components/ui/Card";
+import { getAuthHeaders } from "@/components/AuthProvider";
 
 interface Project {
   id: string;
@@ -44,8 +45,10 @@ export default function NuevaTareaPage() {
     const params = new URLSearchParams(window.location.search);
     setPreselectedProjectId(params.get("proyectoId") || "");
 
+    const headers = getAuthHeaders();
+
     // Cargar proyectos (la API ya filtra según el rol)
-    fetch("/api/proyectos")
+    fetch("/api/proyectos", { headers })
       .then((r) => r.json())
       .then((projectsRes) => {
         if (projectsRes.success) {
@@ -55,7 +58,7 @@ export default function NuevaTareaPage() {
 
     // Cargar usuarios para el select de responsable (solo admin necesita esto)
     if (role === "ADMIN") {
-      fetch("/api/usuarios")
+      fetch("/api/usuarios", { headers })
         .then((r) => r.json())
         .then((usersRes) => {
           if (usersRes.success) {

@@ -9,6 +9,7 @@ import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
 import { Card, CardBody } from "@/components/ui/Card";
+import { getAuthHeaders } from "@/components/AuthProvider";
 
 interface Project {
   id: string;
@@ -39,10 +40,11 @@ export default function EditarTareaPage() {
     const userId = localStorage.getItem("userId") || "";
     setIsAdmin(role === "ADMIN");
 
+    const headers = getAuthHeaders();
     Promise.all([
-      fetch(`/api/tareas/${params.id}`).then((r) => r.json()),
-      fetch("/api/proyectos").then((r) => r.json()),
-      fetch("/api/usuarios").then((r) => r.json()),
+      fetch(`/api/tareas/${params.id}`, { headers }).then((r) => r.json()),
+      fetch("/api/proyectos", { headers }).then((r) => r.json()),
+      fetch("/api/usuarios", { headers }).then((r) => r.json()),
     ]).then(([taskRes, projectsRes, usersRes]) => {
       if (taskRes.success) setTask(taskRes.data);
       if (projectsRes.success) setProjects(projectsRes.data);

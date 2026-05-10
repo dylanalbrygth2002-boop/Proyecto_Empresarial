@@ -9,6 +9,7 @@ import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
 import { Card, CardBody } from "@/components/ui/Card";
+import { getAuthHeaders } from "@/components/AuthProvider";
 
 interface Client {
   id: string;
@@ -26,9 +27,10 @@ export default function EditarProyectoPage() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
+    const headers = getAuthHeaders();
     Promise.all([
-      fetch(`/api/proyectos/${params.id}`).then((r) => r.json()),
-      fetch("/api/clientes").then((r) => r.json()),
+      fetch(`/api/proyectos/${params.id}`, { headers }).then((r) => r.json()),
+      fetch("/api/clientes", { headers }).then((r) => r.json()),
     ]).then(([projectRes, clientsRes]) => {
       if (projectRes.success) setProject(projectRes.data);
       if (clientsRes.success) setClients(clientsRes.data);

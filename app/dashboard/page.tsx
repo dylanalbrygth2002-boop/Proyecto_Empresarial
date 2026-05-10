@@ -41,9 +41,17 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const role = localStorage.getItem("userRole") || "";
+    const id = localStorage.getItem("userId") || "";
     setUserRole(role);
 
-    fetch("/api/dashboard/resumen")
+    // Asegurar que el fetch siempre lleve headers de auth
+    // (respaldo si AuthProvider aun no intercepto fetch)
+    fetch("/api/dashboard/resumen", {
+      headers: {
+        "X-User-Id": id,
+        "X-User-Role": role,
+      },
+    })
       .then((res) => res.json())
       .then((res) => {
         if (res.success) setData(res.data);
