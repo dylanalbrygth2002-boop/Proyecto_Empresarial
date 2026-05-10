@@ -76,7 +76,7 @@ export default function TareaHistorialPage() {
         </div>
 
         {/* Info */}
-        <Card>
+        <Card color="blue" className="!border-t-4">
           <CardBody>
             <div className="flex flex-wrap items-center gap-3">
               <Badge variant={getPriorityVariant(task.priority)}>{getPriorityLabel(task.priority)}</Badge>
@@ -87,7 +87,7 @@ export default function TareaHistorialPage() {
         </Card>
 
         {/* Timeline */}
-        <Card className="!p-0">
+        <Card color="blue" className="!p-0 !border-t-4">
           <CardHeader className="px-6 py-5">
             <h2 className="text-lg font-bold text-slate-900">Línea de tiempo</h2>
           </CardHeader>

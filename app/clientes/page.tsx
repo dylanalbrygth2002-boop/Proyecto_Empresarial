@@ -141,7 +141,7 @@ export default function ClientesPage() {
         </div>
 
         {/* Desktop table */}
-        <Card className="hidden md:block !p-0 overflow-hidden">
+        <Card color="blue" className="hidden md:block !p-0 overflow-hidden !border-t-4">
           <CardBody className="p-0">
             {loading ? (
               <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" /></div>

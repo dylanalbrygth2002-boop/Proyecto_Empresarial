@@ -102,7 +102,7 @@ export default function EditarProyectoPage() {
           <p className="text-slate-500">Actualiza la información del proyecto</p>
         </div>
 
-        <Card>
+        <Card color="indigo" className="!border-t-4">
           <CardBody>
             {error && (
               <div className="mb-4">

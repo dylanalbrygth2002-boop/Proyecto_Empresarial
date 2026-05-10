@@ -114,7 +114,7 @@ export default function ProyectosPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {filteredProjects.map((project) => (
-              <Card key={project.id} className="!p-0 flex flex-col">
+               <Card key={project.id} color="indigo" className="!p-0 flex flex-col !border-t-4">
                 <CardBody className="p-5 flex flex-col flex-1">
                   <div className="flex items-start justify-between mb-3">
                     <div className="min-w-0">

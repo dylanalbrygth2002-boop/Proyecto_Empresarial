@@ -123,7 +123,7 @@ export default function UsuariosPage() {
             <p className="text-center text-slate-500 py-12">No hay usuarios</p>
           ) : (
             filteredUsers.map((user) => (
-              <Card key={user.id} className="!p-0">
+               <Card key={user.id} color="purple" className="!p-0">
                 <CardBody className="p-4">
                   <div className="flex items-start justify-between mb-2">
                     <div>
@@ -144,7 +144,7 @@ export default function UsuariosPage() {
         </div>
 
         {/* Desktop */}
-        <Card className="hidden md:block !p-0 overflow-hidden">
+        <Card color="purple" className="hidden md:block !p-0 overflow-hidden !border-t-4">
           <CardBody className="p-0">
             {loading ? (
               <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" /></div>

@@ -77,7 +77,7 @@ export default function NuevoProyectoPage() {
           <p className="text-slate-500">Completa la información del proyecto</p>
         </div>
 
-        <Card>
+        <Card color="indigo" className="!border-t-4">
           <CardBody>
             {error && (
               <div className="mb-4">

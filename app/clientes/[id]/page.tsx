@@ -76,7 +76,7 @@ export default function ClienteDetailPage() {
           </div>
         </div>
 
-        <Card>
+        <Card color="blue" className="!border-t-4">
           <CardBody className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -101,7 +101,7 @@ export default function ClienteDetailPage() {
           </CardBody>
         </Card>
 
-        <Card>
+        <Card color="indigo" className="!border-t-4">
           <CardHeader>
             <h2 className="text-lg font-semibold text-slate-900">Proyectos asociados</h2>
           </CardHeader>

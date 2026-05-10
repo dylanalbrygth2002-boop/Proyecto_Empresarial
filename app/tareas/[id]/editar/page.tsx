@@ -136,7 +136,7 @@ export default function EditarTareaPage() {
           <p className="text-slate-500">Actualiza la información de la tarea</p>
         </div>
 
-        <Card>
+        <Card color="blue" className="!border-t-4">
           <CardBody>
             {error && (
               <div className="mb-4">

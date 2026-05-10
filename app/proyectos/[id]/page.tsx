@@ -87,7 +87,7 @@ export default function ProyectoDetailPage() {
         </div>
 
         {/* Progreso */}
-        <Card className="!p-0">
+        <Card color="indigo" className="!p-0 !border-t-4">
           <CardBody className="p-6">
             <div className="space-y-5">
               <div className="flex items-center justify-between">
@@ -125,7 +125,7 @@ export default function ProyectoDetailPage() {
         </Card>
 
         {/* Info */}
-        <Card>
+        <Card color="indigo" className="!border-t-4">
           <CardBody className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
@@ -155,9 +155,9 @@ export default function ProyectoDetailPage() {
         </Card>
 
         {/* Tareas */}
-        <Card className="!p-0">
-          <CardHeader className="px-6 py-5">
-            <h2 className="text-lg font-bold text-slate-900">Tareas asociadas</h2>
+        <Card color="blue" className="!p-0 !border-t-4">
+          <CardHeader>
+            <h2 className="text-lg font-semibold text-slate-900">Tareas asociadas</h2>
           </CardHeader>
           <CardBody className="p-0">
             {project.tasks.length === 0 ? (

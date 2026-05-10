@@ -36,7 +36,7 @@ export default function PerfilPage() {
           <p className="text-sm text-slate-500 mt-0.5">Información de tu cuenta</p>
         </div>
 
-        <Card>
+        <Card color="purple" className="!border-t-4">
           <CardBody className="space-y-6">
             <div className="flex items-center gap-4 pb-6 border-b border-slate-100">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">

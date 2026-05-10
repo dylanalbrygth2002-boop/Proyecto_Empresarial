@@ -55,7 +55,7 @@ export default function TareaDetailPage() {
           </div>
         </div>
 
-        <Card>
+        <Card color="blue" className="!border-t-4">
           <CardBody className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">

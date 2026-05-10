@@ -115,14 +115,14 @@ export default function TareasPage() {
         {loading ? (
           <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-10 w-10 border-4 border-indigo-200 border-t-indigo-600" /></div>
         ) : groupedTasks.length === 0 ? (
-          <Card><CardBody><p className="text-center text-slate-500 py-8">{searchQuery ? "No se encontraron" : (isAdmin ? "No hay tareas" : "No tienes tareas")}</p></CardBody></Card>
+          <Card color="blue"><CardBody><p className="text-center text-slate-500 py-8">{searchQuery ? "No se encontraron" : (isAdmin ? "No hay tareas" : "No tienes tareas")}</p></CardBody></Card>
         ) : (
           <div className="space-y-5">
             {searchQuery && <p className="text-sm text-slate-500 font-medium">{filteredTasks.length} tareas encontradas</p>}
             {groupedTasks.map((group) => {
               const stats = getTaskStats(group.tasks);
               return (
-                <Card key={group.projectId} className="!p-0 overflow-hidden">
+                 <Card key={group.projectId} color="blue" className="!p-0 overflow-hidden !border-t-4">
                   <CardHeader className="bg-slate-50/60 border-b border-slate-100 px-5 py-4">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                       <div className="min-w-0">

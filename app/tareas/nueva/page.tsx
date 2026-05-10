@@ -176,7 +176,7 @@ export default function NuevaTareaPage() {
           </p>
         </div>
 
-        <Card>
+        <Card color="blue" className="!border-t-4">
           <CardBody>
             {error && (
               <div className="mb-4">

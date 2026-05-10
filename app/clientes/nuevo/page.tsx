@@ -60,7 +60,7 @@ export default function NuevoClientePage() {
           <p className="text-sm text-slate-500 mt-0.5">Completa la información del cliente</p>
         </div>
 
-        <Card>
+        <Card color="blue" className="!border-t-4">
           <CardBody>
             {error && (
               <div className="mb-4">
