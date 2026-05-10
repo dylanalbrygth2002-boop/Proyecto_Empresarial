@@ -83,7 +83,8 @@ export default function DashboardPage() {
   const getStatusLabel = (status: string) => {
     const map: Record<string, string> = {
       PLANNED: "Planificado", IN_PROGRESS: "En progreso", PAUSED: "Pausado",
-      FINISHED: "Finalizado", CANCELLED: "Cancelado", PENDING: "Pendiente", COMPLETED: "Completada",
+      FINISHED: "Finalizado", CANCELLED: "Cancelado", PENDING: "Pendiente",
+      IN_REVIEW: "En revisión", COMPLETED: "Completada",
     };
     return map[status] || status;
   };
@@ -93,7 +94,7 @@ export default function DashboardPage() {
       <div className="space-y-8">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Inicio</h1>
           <p className="text-slate-500 text-sm mt-0.5">
             {isAdmin ? "Resumen general del sistema" : "Tu resumen personal"}
           </p>
