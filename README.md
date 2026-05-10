@@ -1,48 +1,109 @@
-# TechSolutions S.A. - Sistema Empresarial Full-Stack
+# TechSolutions S.A. — Sistema Empresarial Full-Stack
 
-Sistema de gestion empresarial full-stack para TechSolutions S.A., desarrollado con Next.js, React, TailwindCSS, Prisma y PostgreSQL.
+Sistema web empresarial completo desarrollado con Next.js, React, TypeScript y PostgreSQL para la gestion integral de clientes, proyectos, tareas y usuarios. Incluye dashboard analitico, reportes PDF y aplicacion movil Android via Capacitor.
 
-## Tecnologias
+---
 
-- Next.js 16 con App Router
-- React 19
-- TypeScript
-- TailwindCSS
-- Prisma ORM 6
-- PostgreSQL
-- Bun (runtime y gestor de paquetes)
-- jsPDF para reportes PDF
+## Descripcion del Proyecto
+
+TechSolutions S.A. es una aplicacion empresarial full-stack diseñada para la gestion de operaciones corporativas. Permite administrar clientes, proyectos, tareas asignadas y usuarios del sistema con control de roles (Administrador y Usuario). La interfaz es completamente responsive y esta optimizada tanto para escritorio como para dispositivos moviles.
+
+El proyecto fue desarrollado como parte de un proyecto integrador universitario, aplicando buenas practicas de desarrollo, arquitectura modular, autenticacion segura y despliegue continuo.
+
+---
+
+## Caracteristicas Principales
+
+- **Dashboard personalizado**: Vista de resumen con estadisticas diferenciadas por rol (administrador vs usuario normal)
+- **Gestion de clientes**: CRUD completo de clientes empresariales con estado activo/inactivo
+- **Gestion de proyectos**: Proyectos asociados a clientes, con barra de progreso visual y estado en tiempo real
+- **Gestion de tareas**: Tareas asignadas a proyectos y responsables, con prioridad y fecha limite
+- **Control de roles**: Administrador gestiona todo; usuarios normales solo interactuan con sus proyectos y tareas asignadas
+- **Reportes PDF**: Generacion de reportes de proyecto con jsPDF y jspdf-autotable
+- **Historial de tareas**: Timeline de fechas de creacion, edicion y cambios de estado
+- **Buscador global**: Busqueda en tiempo real en clientes, proyectos, tareas y usuarios
+- **App movil Android**: Compilada con Capacitor, carga la aplicacion desde Vercel (Remote URL)
+- **Diseño moderno**: Interfaz profesional con TailwindCSS, animaciones de entrada, cards con bordes de color por modulo y totalmente responsive
+- **Seed de datos**: 10 usuarios demo, 10 clientes, 10 proyectos y 50 tareas precargadas
+
+---
+
+## Tecnologias Utilizadas
+
+| Categoria | Tecnologia |
+|-----------|------------|
+| Framework | Next.js 16 (App Router) |
+| Frontend | React 19, TypeScript, TailwindCSS 4 |
+| Backend | Next.js API Routes (Route Handlers) |
+| ORM | Prisma 6 |
+| Base de datos | PostgreSQL (local / Railway) |
+| Runtime | Bun |
+| Autenticacion | JWT + localStorage |
+| Validacion | Zod |
+| Reportes | jsPDF + jspdf-autotable |
+| App movil | Capacitor 8 + Android |
+| Despliegue | Vercel (frontend) + Railway (PostgreSQL) |
+
+---
+
+## Arquitectura del Sistema
+
+```
+Usuario
+  |
+  |---> Navegador Web (PC / Tablet / Celular)
+  |       └── Next.js App (Vercel)
+  |              ├── API Routes (backend interno)
+  |              ├── PostgreSQL (Railway)
+  |              └── jsPDF (reportes)
+  |
+  |---> App Android (APK)
+          └── Capacitor WebView
+                 └── Carga desde Vercel URL
+```
+
+---
 
 ## Requisitos Previos
 
-- Bun instalado
-- PostgreSQL corriendo (local o Railway)
+- Bun instalado (https://bun.sh)
+- PostgreSQL corriendo (local via extension VS Code o Railway)
+- Git
 
-## Instalacion Local (Metodo Rapido)
+---
 
-Doble clic en `scripts/setup-local.bat` (Windows) y sigue las instrucciones. El script automatiza todo:
-- Verifica PostgreSQL
-- Genera cliente Prisma
-- Aplica migraciones
-- Opcionalmente limpia datos existentes
-- Ejecuta seed con datos demo
-- Verifica el estado final
+## Instalacion Local (Rapido)
 
-## Instalacion Local (Metodo Manual)
+Ejecuta el script automatizado:
 
-1. Copiar el archivo de variables de entorno:
 ```bash
-cp .env.example .env
+bun run setup
 ```
 
-2. Configurar `DATABASE_URL` en `.env` con tus credenciales de PostgreSQL
+O desde Windows con doble clic:
+```
+scripts/setup-local.bat
+```
 
-3. Instalar dependencias:
+Este script verifica PostgreSQL, genera el cliente Prisma, aplica migraciones y ejecuta el seed con datos demo.
+
+---
+
+## Instalacion Local (Manual)
+
+1. Clonar el repositorio e instalar dependencias:
 ```bash
 bun install
 ```
 
-4. Generar Prisma Client:
+2. Copiar variables de entorno:
+```bash
+cp .env.example .env
+```
+
+3. Configurar `DATABASE_URL` en `.env` con tus credenciales PostgreSQL
+
+4. Generar cliente Prisma:
 ```bash
 bunx prisma generate
 ```
@@ -52,7 +113,7 @@ bunx prisma generate
 bunx prisma migrate dev
 ```
 
-6. Crear usuario administrador:
+6. Insertar datos demo:
 ```bash
 bunx prisma db seed
 ```
@@ -62,215 +123,229 @@ bunx prisma db seed
 bun run dev
 ```
 
+La aplicacion estara disponible en `http://localhost:3000`
+
+---
+
 ## Variables de Entorno
 
-Ver `.env.example`:
+Ver archivo `.env.example`:
 
 ```
-DATABASE_URL=postgresql://postgres:Dai12345@127.0.0.1:5432/sistema_empresarial?schema=public
-JWT_SECRET=tu-secreto-jwt-super-seguro-cambia-esto
+DATABASE_URL=postgresql://usuario:password@host:puerto/basedatos?schema=public
+JWT_SECRET=tu-secreto-jwt-super-seguro
 NODE_ENV=development
+NEXT_PUBLIC_APP_URL=https://tu-app.vercel.app
 ```
 
-## Scripts Automatizados
+---
 
-Ejecuta con doble clic (Windows) o desde terminal:
+## Credenciales de Acceso (Demo)
 
-| Script | Comando | Descripcion |
-|--------|---------|-------------|
-| `scripts/setup-local.bat` | `bun run setup` | Setup completo local |
-| `scripts/deploy.bat` | `bun run deploy` | Guia paso a paso para produccion |
-| `scripts/build-apk.bat` | `bun run build:apk` | Compilar APK de Android |
-| `scripts/diagnostico.bat` | `bun run diagnostico` | Estado del sistema |
+Despues de ejecutar `bunx prisma db seed`, se crean los siguientes usuarios:
 
-## Comandos Disponibles
+| Rol | Correo | Contraseña |
+|-----|--------|------------|
+| Administrador | admin@techsolutions.com | admin123 |
+| Usuario 1 | carlos.mendez@techsolutions.com | password123 |
+| Usuario 2 | ana.garcia@techsolutions.com | password123 |
+| Usuario 3 | luis.rodriguez@techsolutions.com | password123 |
+| Usuario 4 | maria.lopez@techsolutions.com | password123 |
+| Usuario 5 | juan.perez@techsolutions.com | password123 |
+| Usuario 6 | sofia.torres@techsolutions.com | password123 |
+| Usuario 7 | diego.ramirez@techsolutions.com | password123 |
+| Usuario 8 | valentina.flores@techsolutions.com | password123 |
+| Usuario 9 | andres.morales@techsolutions.com | password123 |
+| Usuario 10 | camila.diaz@techsolutions.com | password123 |
 
-```bash
-bun run dev                    # Servidor de desarrollo
-bun run build                  # Compilar para produccion (Vercel)
-bun run build:capacitor        # Compilar archivos estaticos para Capacitor
-bun run start                  # Iniciar en produccion
-bun run setup                  # Setup local automatizado
-bun run deploy                 # Despliegue guiado
-bun run build:apk              # Compilar APK Android
-bun run diagnostico            # Diagnostico del sistema
-bun run cap:sync               # Sincronizar Capacitor
-bun run cap:open:android       # Abrir Android Studio
-bunx prisma studio             # Prisma Studio
-bunx prisma migrate dev        # Crear migracion
-bunx prisma migrate deploy     # Aplicar migraciones en produccion
-bunx prisma db seed            # Crear usuario admin
-```
+---
 
-## Credenciales
+## Scripts Disponibles
 
-Despues de ejecutar `bunx prisma db seed`:
+| Comando | Descripcion |
+|---------|-------------|
+| `bun run dev` | Servidor de desarrollo |
+| `bun run build` | Compilar para produccion |
+| `bun run start` | Iniciar en modo produccion |
+| `bun run setup` | Setup local automatizado |
+| `bun run deploy` | Guia paso a paso para produccion |
+| `bun run build:apk` | Compilar APK Android |
+| `bun run diagnostico` | Diagnostico del sistema |
+| `bun run cap:sync` | Sincronizar Capacitor |
+| `bun run cap:open:android` | Abrir Android Studio |
+| `bunx prisma studio` | Prisma Studio (interfaz grafica DB) |
+| `bunx prisma migrate dev` | Crear nueva migracion |
+| `bunx prisma migrate deploy` | Aplicar migraciones en produccion |
+| `bunx prisma db seed` | Insertar datos demo |
 
-- **Administrador**: admin@techsolutions.com / admin123
-
-Los usuarios normales se registran manualmente desde la pagina de registro.
-
-## Funcionalidades
-
-### Modulos
-
-- **Dashboard**: Estadisticas generales del sistema
-- **Clientes**: CRUD completo de clientes empresariales
-- **Proyectos**: CRUD completo de proyectos asociados a clientes
-- **Tareas**: CRUD completo de tareas asociadas a proyectos y responsables
-- **Usuarios**: Gestion de usuarios (solo administrador)
-- **Perfil**: Informacion del usuario autenticado
-
-### Reportes PDF
-
-Desde la pagina de detalle de cada proyecto, puedes descargar un reporte PDF que incluye:
-
-- Informacion del proyecto (nombre, cliente, estado, fechas)
-- Lista de tareas con responsable, prioridad, estado
-- Fecha de inicio y fecha de finalizacion de cada tarea
-- Fecha y hora de generacion del reporte
-
-### Roles
-
-**Administrador:**
-- Acceso completo a todos los modulos
-- Puede gestionar usuarios
-- Puede eliminar registros
-
-**Usuario Normal:**
-- Puede ver dashboard, clientes, proyectos, tareas
-- Puede crear y editar registros
-- No puede acceder a la gestion de usuarios
+---
 
 ## Estructura del Proyecto
 
 ```
-app/
-  api/           # Route Handlers (backend)
-    auth/        # Autenticacion (login, register, me, logout)
-    clientes/    # CRUD clientes
-    proyectos/   # CRUD proyectos + reportes PDF
-    tareas/      # CRUD tareas
-    usuarios/    # Gestion usuarios (admin)
-    dashboard/   # Resumen estadistico
-  dashboard/     # Panel principal
-  clientes/      # CRUD clientes
-  proyectos/     # CRUD proyectos
-  tareas/        # CRUD tareas
-  usuarios/      # Gestion usuarios (admin)
-  perfil/        # Perfil de usuario
-  login/         # Inicio de sesion
-  register/      # Registro
-components/
-  ui/            # Componentes reutilizables (Button, Input, Card, etc.)
-  layout/        # Layout y navegacion (AppShell, AppSidebar)
-lib/
-  prisma.ts      # Cliente Prisma
-  auth-server.ts # Helpers de autenticacion (server)
-  jwt.ts         # Manejo de JWT
-  validations/   # Esquemas Zod
-  fetch-auth.ts  # Helper para fetch con autenticacion
-prisma/
-  schema.prisma  # Modelo de datos
-  seed.ts        # Usuario admin inicial
+Proyecto_Empresarial/
+|-- app/                          # Next.js App Router
+|   |-- api/                      # Backend (Route Handlers)
+|   |   |-- auth/                 # Login, register, logout, me
+|   |   |-- clientes/             # CRUD clientes
+|   |   |-- proyectos/            # CRUD proyectos + reportes PDF
+|   |   |-- tareas/               # CRUD tareas
+|   |   |-- usuarios/             # Gestion usuarios
+|   |   |-- dashboard/            # Resumen estadistico
+|   |-- clientes/                 # Paginas frontend clientes
+|   |-- proyectos/                # Paginas frontend proyectos
+|   |-- tareas/                   # Paginas frontend tareas
+|   |-- usuarios/                 # Paginas frontend usuarios
+|   |-- dashboard/                # Panel principal
+|   |-- perfil/                   # Perfil de usuario
+|   |-- login/                    # Inicio de sesion
+|   |-- register/                 # Registro
+|   |-- globals.css               # Estilos globales y animaciones
+|-- components/
+|   |-- ui/                       # Componentes reutilizables (Button, Card, Input, Badge, Alert)
+|   |-- layout/                   # AppShell, AppSidebar, AuthProvider
+|-- lib/                          # Utilidades
+|   |-- prisma.ts                 # Cliente Prisma singleton
+|   |-- auth-server.ts            # Helpers de autenticacion servidor
+|   |-- jwt.ts                    # Manejo de tokens JWT
+|   |-- validations/              # Esquemas de validacion Zod
+|-- prisma/
+|   |-- schema.prisma             # Modelo de datos (User, Client, Project, Task)
+|   |-- seed.ts                   # Datos demo
+|-- scripts/                      # Scripts automatizados
+|   |-- setup.ts                  # Setup local
+|   |-- deploy.ts                 # Guia de despliegue
+|   |-- build-apk.ts              # Compilar APK
+|   |-- diagnostico.ts            # Diagnostico del sistema
+|-- android/                      # Proyecto Android (Capacitor)
+|-- capacitor.config.ts           # Configuracion de Capacitor
+|-- vercel.json                   # Configuracion de build en Vercel
+|-- next.config.ts                # Configuracion de Next.js
+|-- package.json
+|-- .env.example
+|-- README.md
+|-- INIT.md                       # Documentacion completa del proyecto
+|-- CREDENCIALES.md               # Credenciales de usuarios demo
+|-- GUIA_VERCEL.md                # Guia paso a paso para Vercel
 ```
 
-## Endpoints Principales
+---
+
+## Endpoints API
 
 ### Autenticacion
-- POST /api/auth/register
-- POST /api/auth/login
-- POST /api/auth/logout
-- GET /api/auth/me
+- `POST /api/auth/register` — Registro de usuarios
+- `POST /api/auth/login` — Inicio de sesion
+- `POST /api/auth/logout` — Cerrar sesion
+- `GET /api/auth/me` — Obtener usuario actual
 
 ### Clientes
-- GET /api/clientes
-- POST /api/clientes
-- GET /api/clientes/[id]
-- PUT /api/clientes/[id]
-- DELETE /api/clientes/[id]
+- `GET /api/clientes` — Listar clientes
+- `POST /api/clientes` — Crear cliente
+- `GET /api/clientes/[id]` — Ver cliente
+- `PUT /api/clientes/[id]` — Actualizar cliente
+- `DELETE /api/clientes/[id]` — Eliminar cliente
 
 ### Proyectos
-- GET /api/proyectos
-- POST /api/proyectos
-- GET /api/proyectos/[id]
-- PUT /api/proyectos/[id]
-- DELETE /api/proyectos/[id]
-- GET /api/proyectos/[id]/reporte (descarga PDF)
+- `GET /api/proyectos` — Listar proyectos (con progreso calculado)
+- `POST /api/proyectos` — Crear proyecto
+- `GET /api/proyectos/[id]` — Ver proyecto
+- `PUT /api/proyectos/[id]` — Actualizar proyecto
+- `DELETE /api/proyectos/[id]` — Eliminar proyecto
+- `GET /api/proyectos/[id]/reporte` — Descargar reporte PDF
 
 ### Tareas
-- GET /api/tareas
-- POST /api/tareas
-- GET /api/tareas/[id]
-- PUT /api/tareas/[id]
-- DELETE /api/tareas/[id]
+- `GET /api/tareas` — Listar tareas (filtradas por rol)
+- `POST /api/tareas` — Crear tarea
+- `GET /api/tareas/[id]` — Ver tarea
+- `PUT /api/tareas/[id]` — Actualizar tarea
+- `DELETE /api/tareas/[id]` — Eliminar tarea
 
 ### Usuarios
-- GET /api/usuarios
-- GET /api/usuarios/[id]
-- PUT /api/usuarios/[id]
-- DELETE /api/usuarios/[id]
+- `GET /api/usuarios` — Listar usuarios
+- `GET /api/usuarios/[id]` — Ver usuario
+- `PUT /api/usuarios/[id]` — Actualizar usuario
+- `DELETE /api/usuarios/[id]` — Eliminar usuario
 
 ### Dashboard
-- GET /api/dashboard/resumen
+- `GET /api/dashboard/resumen` — Estadisticas generales/personales
 
-## App Movil (Capacitor + Android)
+---
 
-La app movil usa **estrategia Remote URL**: carga la aplicacion directamente desde Vercel.
+## App Movil Android
 
-### Requisitos
-- Android Studio
-- Java JDK 17+
-- Android SDK API 34+
+La aplicacion movil se construyo con **Capacitor** usando la estrategia **Remote URL**, lo que significa que la app carga la interfaz web directamente desde Vercel. Esto garantiza que siempre se use la version mas reciente sin necesidad de actualizar el APK.
 
-### Configuracion
-1. Despliega primero en Vercel (ver abajo)
-2. Actualiza `capacitor.config.ts` con tu URL:
-   ```ts
-   server: {
-     url: 'https://tu-app.vercel.app',
-     cleartext: true,
-   }
-   ```
-3. Sincroniza: `bun run cap:sync`
+### Requisitos para compilar
+- Android Studio 2025.3+
+- Java JDK 26 (o 17+)
+- Android SDK
 
-### Compilar APK
-- **Automatico**: doble clic en `scripts/build-apk.bat`
-- **Manual**: `bun run cap:open:android` > Build > Build APK(s)
+### Pasos para compilar
 
-El APK se genera en `android/app/build/outputs/apk/debug/app-debug.apk`
+1. Asegurar que `capacitor.config.ts` tenga la URL de Vercel:
+```ts
+server: {
+  url: 'https://proyecto-empresarial.vercel.app/',
+  cleartext: true,
+}
+```
+
+2. Sincronizar Capacitor:
+```bash
+bun run cap:sync
+```
+
+3. Abrir Android Studio:
+```bash
+bun run cap:open:android
+```
+
+4. En Android Studio: `Build > Build Bundle(s) / APK(s) > Build APK(s)`
+
+El APK generado se encuentra en:
+```
+android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+---
 
 ## Despliegue en Produccion
 
-### Opcion Rapida: Script Guiado
-Ejecuta `scripts/deploy.bat` y sigue las instrucciones paso a paso.
+### Base de Datos (Railway)
+1. Crear proyecto en Railway (https://railway.app)
+2. Agregar servicio PostgreSQL
+3. Copiar la `DATABASE_URL`
+4. Ejecutar migraciones y seed manualmente
 
-### Metodo Manual
-
-#### 1. Railway (Base de Datos)
-1. Crear proyecto en Railway
-2. Crear servicio PostgreSQL y copiar `DATABASE_URL`
-3. Ejecutar migraciones y seed:
-   ```bash
-   DATABASE_URL="..." bunx prisma migrate deploy
-   DATABASE_URL="..." bunx prisma db seed
-   ```
-
-#### 2. Vercel (Frontend con Migraciones Automaticas)
-1. Importar repositorio en [vercel.com](https://vercel.com)
+### Frontend (Vercel)
+1. Importar repositorio en Vercel (https://vercel.com)
 2. Agregar variables de entorno:
-   - `DATABASE_URL` (URL de Railway)
+   - `DATABASE_URL`
    - `JWT_SECRET`
    - `NODE_ENV=production`
-3. El build esta configurado en `vercel.json` para ejecutar **automaticamente**:
-   ```bash
-   bunx prisma migrate deploy && bun run build
-   ```
-   Cada deploy aplica las migraciones pendientes antes de compilar.
-4. Deploy automatico con cada push a GitHub
+3. El archivo `vercel.json` esta configurado para ejecutar migraciones automaticas antes de cada build:
+```bash
+bunx prisma migrate deploy && bun run build
+```
+4. Cada push a `main` despliega automaticamente
 
-> **Nota:** El seed de datos iniciales (`bunx prisma db seed`) se ejecuta una sola vez manualmente despues del primer deploy.
+> Nota: El seed (`bunx prisma db seed`) se ejecuta una sola vez manualmente despues del primer deploy.
+
+---
+
+## Estado del Proyecto
+
+- Desarrollo: Completo
+- Pruebas: Realizadas en navegador y dispositivo Android
+- Despliegue web: Activo en Vercel
+- App movil: APK compilado y funcionando
+- Documentacion: README.md, INIT.md, GUIA_VERCEL.md, CREDENCIALES.md
+
+---
 
 ## Autor
 
-Proyecto Integrador Full-Stack Empresarial - TechSolutions S.A.
+Proyecto Integrador Full-Stack Empresarial  
+**TechSolutions S.A.**  
+Desarrollado con Next.js, React, TypeScript, Prisma y PostgreSQL.
