@@ -129,11 +129,19 @@ export default function DashboardPage() {
 
             {/* Lists */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="!p-0">
-                <CardHeader className="px-5 py-4">
+              {/* Proyectos - con color indigo */}
+              <Card color="indigo" className="!p-0 !border-t-4">
+                <CardHeader className="px-5 py-4 bg-gradient-to-r from-indigo-50 to-blue-50 border-b border-indigo-100">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-base font-bold text-slate-900">{isAdmin ? "Últimos proyectos" : "Mis proyectos"}</h2>
-                    <Link href="/proyectos" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">Ver todos</Link>
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center shadow-md">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                      </div>
+                      <h2 className="text-base font-bold text-slate-900">{isAdmin ? "Últimos proyectos" : "Mis proyectos"}</h2>
+                    </div>
+                    <Link href="/proyectos" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">Ver todos →</Link>
                   </div>
                 </CardHeader>
                 <CardBody className="p-0">
@@ -142,7 +150,7 @@ export default function DashboardPage() {
                   ) : (
                     <div className="divide-y divide-slate-100">
                       {data?.ultimosProyectos.map((project) => (
-                        <Link key={project.id} href={`/proyectos/${project.id}`} className="flex items-center justify-between px-5 py-3.5 hover:bg-slate-50 transition-colors">
+                        <Link key={project.id} href={`/proyectos/${project.id}`} className="flex items-center justify-between px-5 py-3.5 hover:bg-indigo-50/40 transition-colors">
                           <div className="min-w-0">
                             <p className="text-sm font-semibold text-slate-900 truncate">{project.name}</p>
                             <p className="text-xs text-slate-500">{project.client.name}</p>
@@ -157,11 +165,19 @@ export default function DashboardPage() {
                 </CardBody>
               </Card>
 
-              <Card className="!p-0">
-                <CardHeader className="px-5 py-4">
+              {/* Tareas - con color blue */}
+              <Card color="blue" className="!p-0 !border-t-4">
+                <CardHeader className="px-5 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 border-b border-blue-100">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-base font-bold text-slate-900">{isAdmin ? "Últimas tareas" : "Mis tareas"}</h2>
-                    <Link href="/tareas" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">Ver todas</Link>
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-md">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                      </div>
+                      <h2 className="text-base font-bold text-slate-900">{isAdmin ? "Últimas tareas" : "Mis tareas"}</h2>
+                    </div>
+                    <Link href="/tareas" className="text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors">Ver todas →</Link>
                   </div>
                 </CardHeader>
                 <CardBody className="p-0">
@@ -170,7 +186,7 @@ export default function DashboardPage() {
                   ) : (
                     <div className="divide-y divide-slate-100">
                       {data?.ultimasTareas.map((task) => (
-                        <Link key={task.id} href={`/tareas/${task.id}`} className="flex items-center justify-between px-5 py-3.5 hover:bg-slate-50 transition-colors">
+                        <Link key={task.id} href={`/tareas/${task.id}`} className="flex items-center justify-between px-5 py-3.5 hover:bg-blue-50/40 transition-colors">
                           <div className="min-w-0">
                             <p className="text-sm font-semibold text-slate-900 truncate">{task.title}</p>
                             <p className="text-xs text-slate-500">{task.project.name} {isAdmin && `• ${task.responsible.name}`}</p>
