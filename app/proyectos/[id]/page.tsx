@@ -26,27 +26,40 @@ export default function ProyectoDetailPage() {
     setDownloading(true);
     try {
       const res = await fetch(`/api/proyectos/${params.id}/reporte`, { headers: getAuthHeaders() });
-      if (!res.ok) { alert("Error al generar reporte"); return; }
+      if (!res.ok) { alert("Error al generar reporte"); setDownloading(false); return; }
       const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
       const fileName = `reporte-${project.name.replace(/\s+/g, "-").toLowerCase()}.pdf`;
 
       // Detectar si estamos en Capacitor (app movil)
       const isCapacitor = typeof window !== "undefined" && !!(window as any).Capacitor;
 
       if (isCapacitor) {
-        // App movil: abrir en navegador externo para descargar
-        window.open(url, "_blank");
+        // App movil: convertir a base64 y abrir como data URI (la WebView descarga sola)
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => {
+          const base64data = reader.result as string;
+          // Crear iframe invisible para forzar descarga en WebView
+          const iframe = document.createElement("iframe");
+          iframe.style.display = "none";
+          iframe.src = base64data;
+          document.body.appendChild(iframe);
+          alert(`Reporte generado: ${fileName}\n\nEl PDF se descargara automaticamente en tu dispositivo. Si no aparece, revisa la carpeta Descargas.`);
+          setTimeout(() => { document.body.removeChild(iframe); }, 5000);
+          setDownloading(false);
+        };
+        reader.onerror = () => { alert("Error al procesar el PDF"); setDownloading(false); };
       } else {
         // Navegador web: descarga normal
+        const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
         a.download = fileName;
         document.body.appendChild(a); a.click();
         window.URL.revokeObjectURL(url); document.body.removeChild(a);
+        setDownloading(false);
       }
-    } catch { alert("Error al descargar"); }
-    finally { setDownloading(false); }
+    } catch { alert("Error al descargar"); setDownloading(false); }
   };
 
   const getProgressColor = (progress: number) => {
