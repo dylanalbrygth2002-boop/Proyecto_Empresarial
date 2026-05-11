@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 import { getAuthHeaders } from "@/components/AuthProvider";
+import { Browser } from "@capacitor/browser";
 
 export default function ProyectoDetailPage() {
   const params = useParams();
@@ -34,19 +35,16 @@ export default function ProyectoDetailPage() {
       const isCapacitor = typeof window !== "undefined" && !!(window as any).Capacitor;
 
       if (isCapacitor) {
-        // App movil: convertir a base64 y usar <a download> con data URI
+        // App movil: abrir PDF en navegador interno con Capacitor Browser
         const reader = new FileReader();
         reader.readAsDataURL(blob);
-        reader.onloadend = () => {
+        reader.onloadend = async () => {
           const base64data = reader.result as string;
-          const a = document.createElement("a");
-          a.href = base64data;
-          a.download = fileName;
-          a.style.display = "none";
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          alert(`Reporte generado: ${fileName}\n\nSi no se descarga automaticamente, revisa tu carpeta de Descargas o usa el menu de opciones del navegador.`);
+          try {
+            await Browser.open({ url: base64data });
+          } catch {
+            alert("Error al abrir el navegador");
+          }
           setDownloading(false);
         };
         reader.onerror = () => { alert("Error al procesar el PDF"); setDownloading(false); };
