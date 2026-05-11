@@ -49,7 +49,7 @@ export default function NuevoProyectoPage() {
     try {
       const res = await fetch("/api/proyectos", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify(data),
       });
 

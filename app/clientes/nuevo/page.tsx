@@ -9,6 +9,7 @@ import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
 import { Alert } from "@/components/ui/Alert";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
+import { getAuthHeaders } from "@/components/AuthProvider";
 
 export default function NuevoClientePage() {
   const router = useRouter();
@@ -32,7 +33,7 @@ export default function NuevoClientePage() {
     try {
       const res = await fetch("/api/clientes", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify(data),
       });
 

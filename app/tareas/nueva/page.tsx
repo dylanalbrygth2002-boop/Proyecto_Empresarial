@@ -103,7 +103,7 @@ export default function NuevaTareaPage() {
     try {
       const res = await fetch("/api/tareas", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify(data),
       });
 
