@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 import { getAuthHeaders } from "@/components/AuthProvider";
-import { Browser } from "@capacitor/browser";
+import { Filesystem, Directory } from "@capacitor/filesystem";
 
 export default function ProyectoDetailPage() {
   const params = useParams();
@@ -35,15 +35,30 @@ export default function ProyectoDetailPage() {
       const isCapacitor = typeof window !== "undefined" && !!(window as any).Capacitor;
 
       if (isCapacitor) {
-        // App movil: abrir PDF en navegador interno con Capacitor Browser
+        // App movil: guardar con Filesystem nativo
         const reader = new FileReader();
         reader.readAsDataURL(blob);
         reader.onloadend = async () => {
           const base64data = reader.result as string;
+          const base64 = base64data.split(",")[1];
           try {
-            await Browser.open({ url: base64data });
-          } catch {
-            alert("Error al abrir el navegador");
+            await Filesystem.writeFile({
+              path: fileName,
+              data: base64,
+              directory: Directory.Documents,
+            });
+            alert(`PDF guardado correctamente en la carpeta Documentos de tu celular.\n\nNombre: ${fileName}\n\nPara verlo: abre la app 'Mi Archivos' o 'Files' y busca en la carpeta Documentos.`);
+          } catch (e: any) {
+            console.error("Filesystem error:", e);
+            // Fallback: mostrar PDF en pantalla para que el usuario lo guarde manualmente
+            const a = document.createElement("a");
+            a.href = base64data;
+            a.target = "_blank";
+            a.style.display = "none";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            alert(`El PDF se ha abierto en una nueva pestaña.\n\nSi no se descarga automaticamente, manten presionado el PDF y selecciona 'Descargar'.`);
           }
           setDownloading(false);
         };
