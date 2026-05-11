@@ -118,8 +118,8 @@ export default function DashboardPage() {
                         </svg>
                       </div>
                       <div className="min-w-0">
-                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide truncate">{stat.label}</p>
-                        <p className="text-2xl font-bold text-blue-700 group-hover:scale-105 transition-transform duration-200">{stat.value}</p>
+                        <p className="text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-wide leading-tight">{stat.label}</p>
+                        <p className="text-xl sm:text-2xl font-bold text-blue-700 group-hover:scale-105 transition-transform duration-200">{stat.value}</p>
                       </div>
                     </div>
                   </CardBody>
