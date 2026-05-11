@@ -34,18 +34,19 @@ export default function ProyectoDetailPage() {
       const isCapacitor = typeof window !== "undefined" && !!(window as any).Capacitor;
 
       if (isCapacitor) {
-        // App movil: convertir a base64 y abrir como data URI (la WebView descarga sola)
+        // App movil: convertir a base64 y usar <a download> con data URI
         const reader = new FileReader();
         reader.readAsDataURL(blob);
         reader.onloadend = () => {
           const base64data = reader.result as string;
-          // Crear iframe invisible para forzar descarga en WebView
-          const iframe = document.createElement("iframe");
-          iframe.style.display = "none";
-          iframe.src = base64data;
-          document.body.appendChild(iframe);
-          alert(`Reporte generado: ${fileName}\n\nEl PDF se descargara automaticamente en tu dispositivo. Si no aparece, revisa la carpeta Descargas.`);
-          setTimeout(() => { document.body.removeChild(iframe); }, 5000);
+          const a = document.createElement("a");
+          a.href = base64data;
+          a.download = fileName;
+          a.style.display = "none";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          alert(`Reporte generado: ${fileName}\n\nSi no se descarga automaticamente, revisa tu carpeta de Descargas o usa el menu de opciones del navegador.`);
           setDownloading(false);
         };
         reader.onerror = () => { alert("Error al procesar el PDF"); setDownloading(false); };
