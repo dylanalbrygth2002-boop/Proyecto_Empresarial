@@ -90,7 +90,7 @@ export default function EditarTareaPage() {
     try {
       const res = await fetch(`/api/tareas/${params.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify(data),
       });
 
