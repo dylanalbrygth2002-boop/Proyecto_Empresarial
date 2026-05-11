@@ -56,7 +56,7 @@ export default function EditarProyectoPage() {
     try {
       const res = await fetch(`/api/proyectos/${params.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify(data),
       });
 
