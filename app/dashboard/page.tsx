@@ -107,19 +107,19 @@ export default function DashboardPage() {
         ) : (
           <>
             {/* Stats */}
-            <div className={`grid grid-cols-2 ${isAdmin ? "lg:grid-cols-4 xl:grid-cols-7" : "lg:grid-cols-5"} gap-4`}>
+            <div className={`grid grid-cols-1 sm:grid-cols-2 ${isAdmin ? "lg:grid-cols-4 xl:grid-cols-7" : "lg:grid-cols-5"} gap-4`}>
               {stats.map((stat, i) => (
                 <Card key={stat.label} className={`!p-0 group animate-fade-in stagger-${Math.min(i + 1, 8)}`}>
                   <CardBody className="p-4 sm:p-5">
-                    <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:items-center sm:gap-3 text-center sm:text-left min-h-[80px] sm:min-h-0">
+                    <div className="flex flex-row items-center gap-3 sm:flex-col sm:items-center sm:gap-2 text-left sm:text-center min-h-[60px] sm:min-h-[80px]">
                       <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-lg shrink-0 group-hover:scale-110 transition-transform duration-300`}>
                         <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={stat.icon} />
                         </svg>
                       </div>
                       <div className="min-w-0">
-                        <p className="text-[10px] sm:text-xs font-bold text-slate-600 uppercase tracking-wide leading-tight">{stat.label}</p>
-                        <p className="text-xl sm:text-2xl font-bold text-blue-700 group-hover:scale-105 transition-transform duration-200">{stat.value}</p>
+                        <p className="text-xs sm:text-[10px] font-bold text-slate-600 uppercase tracking-wide leading-tight">{stat.label}</p>
+                        <p className="text-2xl font-bold text-blue-700 group-hover:scale-105 transition-transform duration-200">{stat.value}</p>
                       </div>
                     </div>
                   </CardBody>
