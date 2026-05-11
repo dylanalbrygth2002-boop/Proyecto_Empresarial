@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardBody, CardHeader } from "@/components/ui/Card";
 import { getAuthHeaders } from "@/components/AuthProvider";
+import { Filesystem, Directory } from "@capacitor/filesystem";
 
 export default function ProyectoDetailPage() {
   const params = useParams();
@@ -28,12 +29,38 @@ export default function ProyectoDetailPage() {
       const res = await fetch(`/api/proyectos/${params.id}/reporte`, { headers: getAuthHeaders() });
       if (!res.ok) { alert("Error al generar reporte"); return; }
       const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `reporte-${project.name.replace(/\s+/g, "-").toLowerCase()}.pdf`;
-      document.body.appendChild(a); a.click();
-      window.URL.revokeObjectURL(url); document.body.removeChild(a);
+
+      // Detectar si estamos en Capacitor (app movil)
+      const isCapacitor = typeof window !== "undefined" && !!(window as any).Capacitor;
+
+      if (isCapacitor) {
+        // App movil: guardar con Filesystem nativo
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = async () => {
+          const base64data = reader.result as string;
+          const base64 = base64data.split(",")[1];
+          const fileName = `reporte-${project.name.replace(/\s+/g, "-").toLowerCase()}.pdf`;
+          try {
+            await Filesystem.writeFile({
+              path: fileName,
+              data: base64,
+              directory: Directory.Documents,
+            });
+            alert(`Reporte guardado en Documentos: ${fileName}`);
+          } catch {
+            alert("Error al guardar el reporte");
+          }
+        };
+      } else {
+        // Navegador web: descarga normal
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `reporte-${project.name.replace(/\s+/g, "-").toLowerCase()}.pdf`;
+        document.body.appendChild(a); a.click();
+        window.URL.revokeObjectURL(url); document.body.removeChild(a);
+      }
     } catch { alert("Error al descargar"); }
     finally { setDownloading(false); }
   };

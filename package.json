@@ -24,6 +24,7 @@
     "@capacitor/android": "^8.3.3",
     "@capacitor/cli": "^8.3.3",
     "@capacitor/core": "^8.3.3",
+    "@capacitor/filesystem": "^8.1.2",
     "@prisma/client": "6",
     "bcryptjs": "^3.0.3",
     "jsonwebtoken": "^9.0.3",
