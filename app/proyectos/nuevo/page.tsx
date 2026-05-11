@@ -60,7 +60,13 @@ export default function NuevoProyectoPage() {
         return;
       }
 
-      router.push("/proyectos");
+      // Redirigir al detalle del proyecto recien creado para que pueda agregar tareas
+      const newProjectId = result.data?.id;
+      if (newProjectId) {
+        router.push(`/proyectos/${newProjectId}`);
+      } else {
+        router.push("/proyectos");
+      }
       router.refresh();
     } catch {
       setError("Error de conexión");

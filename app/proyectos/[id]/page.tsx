@@ -195,7 +195,12 @@ export default function ProyectoDetailPage() {
         {/* Tareas */}
         <Card color="blue" className="!p-0 !border-t-4">
           <CardHeader>
-            <h2 className="text-lg font-semibold text-blue-700">Tareas asociadas</h2>
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <h2 className="text-lg font-semibold text-blue-700">Tareas asociadas</h2>
+              <Link href={`/tareas/nueva?proyectoId=${project.id}`}>
+                <Button variant="primary" size="sm">+ Nueva tarea</Button>
+              </Link>
+            </div>
           </CardHeader>
           <CardBody className="p-0">
             {project.tasks.length === 0 ? (
