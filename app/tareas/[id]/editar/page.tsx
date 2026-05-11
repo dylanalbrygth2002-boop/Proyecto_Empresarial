@@ -88,9 +88,11 @@ export default function EditarTareaPage() {
     };
 
     try {
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      Object.assign(headers, getAuthHeaders());
       const res = await fetch(`/api/tareas/${params.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+        headers,
         body: JSON.stringify(data),
       });
 
