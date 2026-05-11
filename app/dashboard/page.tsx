@@ -117,8 +117,8 @@ export default function DashboardPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={stat.icon} />
                         </svg>
                       </div>
-                      <div>
-                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{stat.label}</p>
+                      <div className="min-w-0">
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide truncate">{stat.label}</p>
                         <p className="text-2xl font-bold text-blue-700 group-hover:scale-105 transition-transform duration-200">{stat.value}</p>
                       </div>
                     </div>
