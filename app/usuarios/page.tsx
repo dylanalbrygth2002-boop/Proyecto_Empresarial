@@ -125,11 +125,11 @@ export default function UsuariosPage() {
             filteredUsers.map((user) => (
                <Card key={user.id} color="purple" className="!p-0">
                 <CardBody className="p-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <div>
+                   <div className="flex items-start justify-between mb-2 gap-2">
+                     <div className="min-w-0 flex-1">
                        <h3 className="font-semibold text-blue-700 truncate">{user.name}</h3>
                        <p className="text-sm text-slate-500 truncate">{user.email}</p>
-                    </div>
+                     </div>
                     <Badge variant={user.role === "ADMIN" ? "danger" : "default"}>{user.role === "ADMIN" ? "Administrador" : "Usuario"}</Badge>
                   </div>
                   <p className="text-sm text-slate-600 mb-3">{user._count.tasks} tareas</p>
@@ -165,8 +165,8 @@ export default function UsuariosPage() {
                   <tbody className="divide-y divide-slate-100">
                     {filteredUsers.map((user) => (
                       <tr key={user.id} className="hover:bg-slate-50/80 transition-colors">
-                        <td className="py-3.5 px-5 font-medium text-blue-700">{user.name}</td>
-                        <td className="py-3.5 px-5 text-slate-600">{user.email}</td>
+                         <td className="py-3.5 px-5 font-medium text-blue-700 truncate max-w-[150px]">{user.name}</td>
+                         <td className="py-3.5 px-5 text-slate-600 truncate max-w-[180px]">{user.email}</td>
                         <td className="py-3.5 px-5"><Badge variant={user.role === "ADMIN" ? "danger" : "default"}>{user.role === "ADMIN" ? "Administrador" : "Usuario"}</Badge></td>
                         <td className="py-3.5 px-5 text-slate-600">{user._count.tasks}</td>
                         <td className="py-3.5 px-5 text-right space-x-1.5">
@@ -190,8 +190,8 @@ export default function UsuariosPage() {
           <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col animate-scale-in">
             <div className="bg-slate-50 px-5 py-4 border-b border-slate-100 flex items-center justify-between rounded-t-2xl shrink-0">
               <div>
-                <h3 className="text-base font-bold text-blue-700">Tareas de {selectedUser.name}</h3>
-                <p className="text-xs text-slate-500">{selectedUser.email}</p>
+                 <h3 className="text-base font-bold text-blue-700 truncate">Tareas de {selectedUser.name}</h3>
+                 <p className="text-xs text-slate-500 truncate">{selectedUser.email}</p>
               </div>
               <button onClick={closeModal} className="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition-colors">
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -207,10 +207,10 @@ export default function UsuariosPage() {
                   {userTasks.map((task) => (
                     <div key={task.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                           <p className="text-sm font-semibold text-blue-700 truncate">{task.title}</p>
-                          <Badge variant={getPriorityVariant(task.priority)}>{getPriorityLabel(task.priority)}</Badge>
-                        </div>
+                         <div className="flex items-center gap-2 min-w-0">
+                            <p className="text-sm font-semibold text-blue-700 truncate">{task.title}</p>
+                           <Badge variant={getPriorityVariant(task.priority)}>{getPriorityLabel(task.priority)}</Badge>
+                         </div>
                          <p className="text-xs text-slate-500 mt-0.5 truncate">{task.project.name}</p>
                       </div>
                       <Badge variant={getStatusVariant(task.status)}>{getStatusLabel(task.status)}</Badge>

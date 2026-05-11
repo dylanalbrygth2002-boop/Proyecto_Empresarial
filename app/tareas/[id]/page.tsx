@@ -86,7 +86,7 @@ export default function TareaDetailPage() {
             {task.description && (
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Descripción</p>
-                <p className="text-slate-700 leading-relaxed">{task.description}</p>
+                 <p className="text-slate-700 leading-relaxed break-words">{task.description}</p>
               </div>
             )}
           </CardBody>

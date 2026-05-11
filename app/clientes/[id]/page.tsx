@@ -111,9 +111,9 @@ export default function ClienteDetailPage() {
             ) : (
               <div className="space-y-2">
                 {client.projects.map((project) => (
-                  <div key={project.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50">
-                    <div>
-                       <p className="font-medium text-sm truncate">{project.name}</p>
+                  <div key={project.id} className="flex items-center justify-between p-3 rounded-lg bg-slate-50 gap-2">
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-sm truncate">{project.name}</p>
                       <p className="text-xs text-slate-500">
                         {new Date(project.startDate).toLocaleDateString("es-ES")}
                         {project.endDate && ` - ${new Date(project.endDate).toLocaleDateString("es-ES")}`}

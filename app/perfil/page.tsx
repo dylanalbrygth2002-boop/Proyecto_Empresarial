@@ -43,15 +43,15 @@ export default function PerfilPage() {
                 <span className="text-2xl font-bold text-white">{user.name.charAt(0).toUpperCase()}</span>
               </div>
               <div>
-                <h2 className="text-lg font-bold text-blue-700">{user.name}</h2>
-                <p className="text-sm text-slate-500">{user.email}</p>
+                 <h2 className="text-lg font-bold text-blue-700 truncate">{user.name}</h2>
+                 <p className="text-sm text-slate-500 truncate">{user.email}</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Correo electrónico</p>
-                <p className="font-semibold text-blue-700">{user.email}</p>
+                 <p className="font-semibold text-blue-700 break-words">{user.email}</p>
               </div>
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Rol</p>

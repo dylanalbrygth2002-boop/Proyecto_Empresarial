@@ -148,7 +148,7 @@ export default function ProyectoDetailPage() {
             {project.description && (
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Descripción</p>
-                <p className="text-slate-700 leading-relaxed">{project.description}</p>
+                 <p className="text-slate-700 leading-relaxed break-words">{project.description}</p>
               </div>
             )}
           </CardBody>
@@ -165,10 +165,10 @@ export default function ProyectoDetailPage() {
             ) : (
               <div className="divide-y divide-slate-100">
                 {project.tasks.map((task: any) => (
-                  <Link key={task.id} href={`/tareas/${task.id}`} className="flex items-center justify-between px-6 py-3.5 hover:bg-slate-50/60 transition-colors">
-                    <div>
-                       <p className="font-semibold text-sm text-blue-700 truncate">{task.title}</p>
-                       <p className="text-xs text-slate-500 truncate">Responsable: {task.responsible.name}</p>
+                  <Link key={task.id} href={`/tareas/${task.id}`} className="flex items-center justify-between px-6 py-3.5 hover:bg-slate-50/60 transition-colors gap-2">
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold text-sm text-blue-700 truncate">{task.title}</p>
+                      <p className="text-xs text-slate-500 truncate">Responsable: {task.responsible.name}</p>
                     </div>
                     <Badge variant={getTaskStatusVariant(task.status)}>{getTaskStatusLabel(task.status)}</Badge>
                   </Link>

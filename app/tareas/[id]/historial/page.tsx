@@ -67,7 +67,7 @@ export default function TareaHistorialPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold text-blue-700 tracking-tight">Historial de tarea</h1>
-            <p className="text-sm text-slate-500 mt-0.5">{task.title}</p>
+             <p className="text-sm text-slate-500 mt-0.5 truncate">{task.title}</p>
           </div>
           <div className="flex gap-2">
             <Link href={`/tareas/${task.id}`}><Button variant="outline" size="sm">Ver tarea</Button></Link>
@@ -81,7 +81,7 @@ export default function TareaHistorialPage() {
             <div className="flex flex-wrap items-center gap-3">
               <Badge variant={getPriorityVariant(task.priority)}>{getPriorityLabel(task.priority)}</Badge>
               <Badge variant={getStatusVariant(task.status)}>{getStatusLabel(task.status)}</Badge>
-              <span className="text-sm text-slate-500">Proyecto: <Link href={`/proyectos/${task.project.id}`} className="font-semibold text-indigo-600 hover:text-indigo-700">{task.project.name}</Link></span>
+              <span className="text-sm text-slate-500 truncate">Proyecto: <Link href={`/proyectos/${task.project.id}`} className="font-semibold text-indigo-600 hover:text-indigo-700">{task.project.name}</Link></span>
             </div>
           </CardBody>
         </Card>
@@ -101,8 +101,8 @@ export default function TareaHistorialPage() {
                     </svg>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-bold text-blue-700">{event.title}</h3>
-                    <p className="text-sm text-slate-600 mt-0.5">{event.description}</p>
+                     <h3 className="text-sm font-bold text-blue-700 truncate">{event.title}</h3>
+                     <p className="text-sm text-slate-600 mt-0.5 break-words">{event.description}</p>
                     <p className="text-xs text-slate-400 mt-1 font-medium">{formatDateTime(event.date)}</p>
                   </div>
                 </div>

@@ -114,11 +114,11 @@ export default function ClientesPage() {
             filteredClients.map((client) => (
               <Card key={client.id} className="!p-0">
                 <CardBody className="p-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <div>
+                   <div className="flex items-start justify-between mb-2 gap-2">
+                     <div className="min-w-0 flex-1">
                        <h3 className="font-semibold text-blue-700 truncate">{client.name}</h3>
                        <p className="text-sm text-slate-500 truncate">{client.company}</p>
-                    </div>
+                     </div>
                     <Badge variant={client.status === "ACTIVE" ? "success" : "default"}>{client.status === "ACTIVE" ? "Activo" : "Inactivo"}</Badge>
                   </div>
                    <p className="text-sm text-slate-600 mb-3 truncate">{client.email}</p>
@@ -163,9 +163,9 @@ export default function ClientesPage() {
                   <tbody className="divide-y divide-slate-100">
                     {filteredClients.map((client) => (
                       <tr key={client.id} className="hover:bg-slate-50/80 transition-colors">
-                        <td className="py-3.5 px-5 font-medium text-blue-700">{client.name}</td>
-                        <td className="py-3.5 px-5 text-slate-600">{client.company}</td>
-                        <td className="py-3.5 px-5 text-slate-600">{client.email}</td>
+                         <td className="py-3.5 px-5 font-medium text-blue-700 truncate max-w-[150px]">{client.name}</td>
+                         <td className="py-3.5 px-5 text-slate-600 truncate max-w-[150px]">{client.company}</td>
+                         <td className="py-3.5 px-5 text-slate-600 truncate max-w-[180px]">{client.email}</td>
                         <td className="py-3.5 px-5"><Badge variant={client.status === "ACTIVE" ? "success" : "default"}>{client.status === "ACTIVE" ? "Activo" : "Inactivo"}</Badge></td>
                         <td className="py-3.5 px-5 text-slate-600">{client._count.projects}</td>
                         <td className="py-3.5 px-5 text-right space-x-1.5">
